@@ -5,7 +5,7 @@ import { skills } from "../data/portfolio-data";
 
 export default function SkillsSection() {
   return (
-    <section id="skills" className="py-20 bg-white dark:bg-gray-900">
+    <section id="skills" className="py-20 bg-green-50 dark:bg-green-950">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="max-w-3xl mx-auto text-center mb-16">
           <motion.h2 
@@ -59,7 +59,7 @@ export default function SkillsSection() {
                     <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2.5">
                       <motion.div
                         initial={{ width: 0 }}
-                        whileInView={{ width:  }}
+                        whileInView={{ width: `${tech.level}%` }}
                         viewport={{ once: true }}
                         transition={{ duration: 1, delay: 0.2 + (0.1 * techIndex) }}
                         className="bg-blue-600 dark:bg-blue-400 h-2.5 rounded-full"
