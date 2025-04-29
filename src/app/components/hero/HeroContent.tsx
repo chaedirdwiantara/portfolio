@@ -1,9 +1,10 @@
 "use client";
 
 import { motion } from 'framer-motion';
-import { personalInfo, socialLinks } from '../../data/portfolio-data';
+import { personalInfo, socialLinks, typingTitles } from '../../data/portfolio-data';
 import SocialLinks from './SocialLinks';
 import CTAButtons from './CTAButtons';
+import TypedBadge from './TypedBadge';
 
 export default function HeroContent() {
   return (
@@ -20,15 +21,18 @@ export default function HeroContent() {
         transition={{ duration: 0.8, delay: 0.2 }}
         className="space-y-8"
       >
-        {/* Title badge with refined styling */}
+        {/* Title badge with refined styling and typing effect */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.3 }}
         >
-          <span className="inline-block py-1.5 px-4 text-sm tracking-wide font-medium text-blue-700 dark:text-blue-300 bg-blue-50 dark:bg-blue-900/30 rounded-full ring-1 ring-blue-100 dark:ring-blue-800">
-            {personalInfo.title}
-          </span>
+          <TypedBadge 
+            titles={typingTitles} 
+            typingSpeed={180}
+            deletingSpeed={80}
+            delayBeforeDelete={2000}
+          />
         </motion.div>
         
         {/* Main headline with enhanced gradient typography */}
@@ -55,7 +59,8 @@ export default function HeroContent() {
         <SocialLinks 
           github={socialLinks.github}
           linkedin={socialLinks.linkedin}
-          twitter={socialLinks.twitter}
+          instagram={socialLinks.instagram}
+          discord={socialLinks.discord}
         />
         
         {/* Call to action buttons */}

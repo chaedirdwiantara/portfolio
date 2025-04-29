@@ -10,6 +10,9 @@ type HeroBackgroundProps = {
 };
 
 export default function HeroBackground({ mousePosition }: HeroBackgroundProps) {
+  // Log to check if component is rendering and receiving props
+  console.log("HeroBackground rendering with mousePosition:", mousePosition);
+
   return (
     <>
       {/* Modern background pattern */}
@@ -25,60 +28,60 @@ export default function HeroBackground({ mousePosition }: HeroBackgroundProps) {
       <div className="absolute inset-0 bg-gradient-to-tr from-white/80 via-blue-50/20 to-transparent dark:from-gray-950/90 dark:via-blue-950/10 dark:to-transparent opacity-90" />
       
       {/* Enhanced gradient orbs with better parallax effect */}
-      <div className="absolute inset-0 overflow-hidden">
+      <div className="absolute inset-0 z-[1] overflow-visible">
         {/* Large blue gradient orb */}
         <motion.div
           animate={{ 
-            x: mousePosition.x * -0.3, 
-            y: mousePosition.y * -0.3 
+            x: mousePosition.x * -1.2, 
+            y: mousePosition.y * -1.2 
           }}
-          transition={{ type: 'tween', ease: 'easeOut', duration: 0.7 }}
-          className="absolute top-[-20%] right-[-10%] w-[900px] h-[900px] rounded-full blur-3xl"
+          transition={{ type: 'spring', stiffness: 120, damping: 20 }}
+          className="absolute top-[5%] right-[5%] w-[600px] h-[600px] rounded-full"
           style={{
-            background: 'radial-gradient(circle, rgba(59,130,246,0.08) 0%, rgba(59,130,246,0) 70%)',
-            filter: 'blur(60px)',
+            background: 'radial-gradient(circle, rgba(59,130,246,0.35) 0%, rgba(59,130,246,0) 70%)',
+            filter: 'blur(20px)',
           }}
         />
         
         {/* Purple gradient orb */}
         <motion.div
           animate={{ 
-            x: mousePosition.x * 0.4, 
-            y: mousePosition.y * 0.4 
+            x: mousePosition.x * 1.6, 
+            y: mousePosition.y * 1.6 
           }}
-          transition={{ type: 'tween', ease: 'easeOut', duration: 0.7 }}
-          className="absolute bottom-[-30%] left-[-10%] w-[800px] h-[800px] rounded-full blur-3xl"
+          transition={{ type: 'spring', stiffness: 120, damping: 20 }}
+          className="absolute bottom-[5%] left-[5%] w-[600px] h-[600px] rounded-full"
           style={{
-            background: 'radial-gradient(circle, rgba(139,92,246,0.07) 0%, rgba(139,92,246,0) 70%)',
-            filter: 'blur(50px)',
+            background: 'radial-gradient(circle, rgba(139,92,246,0.3) 0%, rgba(139,92,246,0) 70%)',
+            filter: 'blur(20px)',
           }}
         />
         
         {/* Accent orange gradient */}
         <motion.div
           animate={{ 
-            x: mousePosition.x * 0.2, 
-            y: mousePosition.y * 0.2 
+            x: mousePosition.x * 0.8, 
+            y: mousePosition.y * 0.8 
           }}
-          transition={{ type: 'tween', ease: 'easeOut', duration: 0.7 }}
-          className="absolute top-[30%] right-[20%] w-[500px] h-[500px] rounded-full blur-3xl opacity-70"
+          transition={{ type: 'spring', stiffness: 120, damping: 20 }}
+          className="absolute top-[30%] right-[20%] w-[400px] h-[400px] rounded-full"
           style={{
-            background: 'radial-gradient(circle, rgba(249,115,22,0.05) 0%, rgba(249,115,22,0) 70%)',
-            filter: 'blur(40px)',
+            background: 'radial-gradient(circle, rgba(249,115,22,0.25) 0%, rgba(249,115,22,0) 70%)',
+            filter: 'blur(15px)',
           }}
         />
         
         {/* Extra cyan accent for visual interest */}
         <motion.div
           animate={{ 
-            x: mousePosition.x * -0.15, 
-            y: mousePosition.y * -0.15 
+            x: mousePosition.x * -0.6, 
+            y: mousePosition.y * -0.6 
           }}
-          transition={{ type: 'tween', ease: 'easeOut', duration: 0.7 }}
-          className="absolute bottom-[20%] right-[30%] w-[400px] h-[400px] rounded-full blur-3xl"
+          transition={{ type: 'spring', stiffness: 120, damping: 20 }}
+          className="absolute bottom-[20%] right-[30%] w-[300px] h-[300px] rounded-full"
           style={{
-            background: 'radial-gradient(circle, rgba(6,182,212,0.05) 0%, rgba(6,182,212,0) 70%)',
-            filter: 'blur(40px)',
+            background: 'radial-gradient(circle, rgba(6,182,212,0.25) 0%, rgba(6,182,212,0) 70%)',
+            filter: 'blur(15px)',
           }}
         />
       </div>

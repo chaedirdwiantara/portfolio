@@ -1,15 +1,16 @@
 "use client";
 
 import { motion } from 'framer-motion';
-import { FaGithub, FaLinkedin, FaTwitter } from 'react-icons/fa';
+import { FaGithub, FaLinkedin, FaInstagram, FaDiscord } from 'react-icons/fa';
 
 type SocialLinksProps = {
   github: string;
   linkedin: string;
-  twitter: string;
+  instagram: string;
+  discord: string;
 };
 
-export default function SocialLinks({ github, linkedin, twitter }: SocialLinksProps) {
+export default function SocialLinks({ github, linkedin, instagram, discord }: SocialLinksProps) {
   return (
     <motion.div 
       initial={{ opacity: 0, y: 20 }}
@@ -39,13 +40,21 @@ export default function SocialLinks({ github, linkedin, twitter }: SocialLinksPr
       </motion.a>
       <motion.a 
         whileHover={{ y: -5, scale: 1.15, transition: { duration: 0.2 } }}
-        href={twitter}
+        href={instagram}
         target="_blank"
         rel="noopener noreferrer"
         className="text-gray-600 hover:text-blue-400 dark:text-gray-400 dark:hover:text-blue-300 transition-colors duration-200"
-        aria-label="Twitter"
+        aria-label="Instagram"
       >
-        <FaTwitter size={24} />
+        <FaInstagram size={24} />
+      </motion.a>
+      <motion.a 
+        whileHover={{ y: -5, scale: 1.15, transition: { duration: 0.2 } }}
+        href={discord}
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        <FaDiscord size={24} />
       </motion.a>
     </motion.div>
   );

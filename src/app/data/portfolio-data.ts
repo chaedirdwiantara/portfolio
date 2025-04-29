@@ -1,19 +1,27 @@
-// Portfolio data file
-// This file contains all the data that will be used across the portfolio
-
 export const personalInfo = {
-  name: "Chaedir",
+  name: "Chaedir Dwiantara",
   title: "Full Stack Developer",
-  email: "your.email@example.com", // Replace with your actual email
-  location: "Your Location", // e.g., "Jakarta, Indonesia"
+  email: "chaedirdwiantara@gmail.com", 
+  location: "Bogor, Indonesia", 
   bio: "Full-stack developer passionate about creating elegant and user-friendly web applications with modern technologies. I specialize in JavaScript/TypeScript, React, and Next.js."
 };
 
+// Typing effect titles for the hero section
+export const typingTitles = [
+  "Full Stack Developer",
+  "TypeScript Expert",
+  "React Native Developer",
+  "Flutter Developer",
+  "React Developer",
+  "Next.js Specialist",
+  "Freelancer",
+];
+
 export const socialLinks = {
-  github: "https://github.com/yourusername", // Replace with your actual GitHub URL
-  linkedin: "https://linkedin.com/in/yourusername", // Replace with your actual LinkedIn URL
-  twitter: "https://twitter.com/yourusername", // Replace with your actual Twitter URL
-  // Add more social links as needed
+  github: "https://github.com/chaedirdwiantara",
+  linkedin: "https://www.linkedin.com/in/chaedir-dwiantara/",
+  instagram: "https://www.instagram.com/chaedir_dwiantara/",
+  discord: "https://discord.com/users/377379625581543424",
 };
 
 export const skills = [

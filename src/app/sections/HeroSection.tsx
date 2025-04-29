@@ -16,7 +16,7 @@ export default function HeroSection() {
       const { clientX, clientY } = e;
       const moveX = clientX - window.innerWidth / 2;
       const moveY = clientY - window.innerHeight / 2;
-      const offsetFactor = 20; // Increased for more subtle effect
+      const offsetFactor = 4; 
       setMousePosition({
         x: moveX / offsetFactor,
         y: moveY / offsetFactor,
