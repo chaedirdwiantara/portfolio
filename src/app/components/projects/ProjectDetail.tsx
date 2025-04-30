@@ -2,24 +2,13 @@
 
 import { motion } from 'framer-motion';
 import Image from 'next/image';
-import { FaGithub, FaGlobe, FaArrowLeft, FaCode, FaMobile, FaApple, FaAndroid, FaAppStore, FaGooglePlay } from 'react-icons/fa';
-import { StaticImageData } from 'next/image';
+import { FaGithub, FaGlobe, FaArrowLeft, FaMobile, FaApple, FaAndroid, FaAppStore, FaGooglePlay } from 'react-icons/fa';
+import PhoneFrame from './ui/PhoneFrame';
+import TechBadge from './ui/TechBadge';
+import { Project, projectAnimations } from '../../types/project';
 
 interface ProjectDetailProps {
-  project: {
-    id: number;
-    title: string;
-    description: string;
-    image: StaticImageData;
-    technologies: string[];
-    liveUrl?: string;
-    sourceUrl?: string;
-    featured?: boolean;
-    isMobileApp?: boolean;
-    appStoreUrl?: string;
-    playStoreUrl?: string;
-    platforms?: ('ios' | 'android')[];
-  } | null;
+  project: Project | null;
   onBack: () => void;
 }
 
@@ -30,9 +19,9 @@ export default function ProjectDetail({ project, onBack }: ProjectDetailProps) {
 
   return (
     <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      exit={{ opacity: 0, y: -20 }}
+      initial={projectAnimations.fadeInUp.initial}
+      animate={projectAnimations.fadeInUp.animate}
+      exit={projectAnimations.fadeInUp.exit}
       transition={{ duration: 0.4 }}
       className="mb-16"
     >
@@ -50,28 +39,15 @@ export default function ProjectDetail({ project, onBack }: ProjectDetailProps) {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12">
             {/* Mobile app preview */}
             <div className="flex justify-center items-center py-16 bg-gray-100 dark:bg-gray-900/60">
-              <div className="relative h-[500px]" style={{ width: '240px' }}>
-                {/* Phone frame */}
-                <div className="absolute inset-0 rounded-[36px] border-[12px] border-gray-800 dark:border-gray-600 overflow-hidden shadow-xl">
-                  {/* Status bar */}
-                  <div className="absolute top-0 left-0 right-0 h-6 bg-black z-10"></div>
-                  
-                  {/* App screenshot */}
-                  <div className="absolute inset-0">
-                    <Image
-                      src={project.image}
-                      alt={project.title}
-                      fill
-                      className="object-cover rounded-[24px]"
-                      sizes="(max-width: 768px) 80vw, 240px"
-                      priority
-                    />
-                  </div>
-                  
-                  {/* Home indicator */}
-                  <div className="absolute bottom-2 left-1/2 -translate-x-1/2 w-1/3 h-1 bg-white rounded-full z-10"></div>
-                </div>
-              </div>
+              <PhoneFrame 
+                image={project.image}
+                alt={project.title}
+                platforms={project.platforms}
+                priority={true}
+                frameSize={{ width: '240px', height: '500px' }}
+                imageSize="(max-width: 768px) 80vw, 240px"
+                showPlatformBadges={false}
+              />
             </div>
             
             {/* Project info */}
@@ -107,12 +83,7 @@ export default function ProjectDetail({ project, onBack }: ProjectDetailProps) {
               
               <div className="flex flex-wrap gap-2 mb-10">
                 {project.technologies.map((tech) => (
-                  <span 
-                    key={tech} 
-                    className="inline-block bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200 text-sm font-medium px-4 py-1.5 rounded-full border border-gray-200 dark:border-gray-600"
-                  >
-                    {tech}
-                  </span>
+                  <TechBadge key={tech} technology={tech} size="md" />
                 ))}
               </div>
               
@@ -190,12 +161,7 @@ export default function ProjectDetail({ project, onBack }: ProjectDetailProps) {
               
               <div className="flex flex-wrap gap-2 mb-10">
                 {project.technologies.map((tech) => (
-                  <span 
-                    key={tech} 
-                    className="inline-block bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200 text-sm font-medium px-4 py-1.5 rounded-full border border-gray-200 dark:border-gray-600"
-                  >
-                    {tech}
-                  </span>
+                  <TechBadge key={tech} technology={tech} size="md" />
                 ))}
               </div>
               

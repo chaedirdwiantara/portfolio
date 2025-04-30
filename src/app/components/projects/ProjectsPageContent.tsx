@@ -6,6 +6,7 @@ import { projects } from '../../data/portfolio-data';
 import ProjectDetail from './ProjectDetail';
 import ProjectSearch from './ProjectSearch';
 import ProjectGridItem from './ProjectGridItem';
+import { Project } from '../../types/project';
 
 export default function ProjectsPageContent() {
   const [filter, setFilter] = useState<string | null>(null);
@@ -46,8 +47,8 @@ export default function ProjectsPageContent() {
   };
 
   // Get selected project data
-  const selectedProjectData = selectedProject 
-    ? projects.find(p => p.id === selectedProject) 
+  const selectedProjectData: Project | null = selectedProject 
+    ? projects.find(p => p.id === selectedProject) || null
     : null;
 
   return (
