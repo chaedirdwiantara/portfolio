@@ -58,12 +58,18 @@ export const skills = [
   },
 ];
 
+// Import project images for usage with Next.js Image component
+import project1Image from '../assets/images/projects/project1.jpg';
+import project2Image from '../assets/images/projects/project2.jpg';
+import project3Image from '../assets/images/projects/project3.jpg';
+import defaultProjectImage from '../assets/images/projects/default-project.jpg';
+
 export const projects = [
   {
     id: 1,
     title: "Project One",
     description: "A modern web application built with Next.js and Tailwind CSS",
-    image: "/images/projects/project1.jpg", // You'll need to add these images
+    image: project1Image, 
     technologies: ["Next.js", "React", "Tailwind CSS", "TypeScript"],
     liveUrl: "https://project1.example.com",
     sourceUrl: "https://github.com/yourusername/project1",
@@ -73,7 +79,7 @@ export const projects = [
     id: 2,
     title: "Project Two",
     description: "Full-stack e-commerce platform with secure payment integration",
-    image: "/images/projects/project2.jpg",
+    image: project2Image,
     technologies: ["React", "Node.js", "Express", "MongoDB", "Stripe"],
     liveUrl: "https://project2.example.com",
     sourceUrl: "https://github.com/yourusername/project2",
@@ -83,7 +89,7 @@ export const projects = [
     id: 3,
     title: "Project Three",
     description: "Mobile-responsive dashboard with data visualization",
-    image: "/images/projects/project3.jpg",
+    image: project3Image,
     technologies: ["React", "D3.js", "Material UI", "Firebase"],
     liveUrl: "https://project3.example.com",
     sourceUrl: "https://github.com/yourusername/project3",
