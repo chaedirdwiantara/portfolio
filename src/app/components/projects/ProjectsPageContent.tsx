@@ -52,7 +52,7 @@ export default function ProjectsPageContent() {
     : null;
 
   return (
-    <main className="min-h-screen pt-24 pb-20 bg-gradient-to-b from-blue-50/40 via-white to-gray-50/70 dark:from-gray-900 dark:via-blue-950/10 dark:to-gray-950 relative">
+    <div className="min-h-screen pt-24 pb-20 bg-gradient-to-b from-blue-50/40 via-white to-gray-50/70 dark:from-gray-900 dark:via-blue-950/10 dark:to-gray-950 relative">
       {/* Subtle background accent elements for visual interest */}
       <div className="absolute top-0 right-0 w-96 h-96 bg-blue-100/30 dark:bg-blue-900/10 rounded-full filter blur-3xl -translate-y-1/2 translate-x-1/3 z-0"></div>
       <div className="absolute bottom-0 left-0 w-96 h-96 bg-indigo-100/20 dark:bg-indigo-900/10 rounded-full filter blur-3xl translate-y-1/3 -translate-x-1/3 z-0"></div>
@@ -120,6 +120,6 @@ export default function ProjectsPageContent() {
           </>
         )}
       </div>
-    </main>
+    </div>
   );
 } 

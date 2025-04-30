@@ -31,7 +31,7 @@ export default function PhoneFrame({
         {/* Status bar */}
         <div className="absolute top-0 left-0 right-0 h-4 bg-black z-30"></div>
         
-        {/* App screenshot */}
+        {/* App screenshot with subtle overlay for consistency */}
         <div className="absolute inset-0">
           <Image
             src={image}
@@ -41,10 +41,9 @@ export default function PhoneFrame({
             sizes={imageSize}
             priority={priority}
           />
+          {/* Subtle overlay inside phone frame for consistency */}
+          <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent z-10"></div>
         </div>
-        
-        {/* Home indicator */}
-        <div className="absolute bottom-1 left-1/2 -translate-x-1/2 w-1/3 h-1 bg-white rounded-full z-30"></div>
       </div>
       
       {/* Platform indicators */}

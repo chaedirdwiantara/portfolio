@@ -22,13 +22,13 @@ export default function ProjectGridItem({ project, index, onClick }: ProjectGrid
       initial={projectAnimations.fadeInUp.initial}
       animate={projectAnimations.fadeInUp.animate}
       transition={{ duration: 0.5, delay: 0.1 * index }}
-      className="bg-white dark:bg-gray-800 rounded-xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 hover:-translate-y-2 cursor-pointer border border-gray-100 dark:border-gray-700"
+      className="bg-white dark:bg-gray-800 rounded-xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 hover:-translate-y-2 cursor-pointer border border-gray-100 dark:border-gray-700 flex flex-col"
       onClick={onClick}
       whileHover={{ scale: 1.02 }}
     >
       {/* Project Image */}
       <div className={`relative w-full h-64 overflow-hidden ${isMobile ? 'py-2 bg-gray-100 dark:bg-gray-700/50' : ''}`}>
-        <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-black/20 z-10" />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-black/10 z-10" />
         
         {isMobile ? (
           // Mobile app with device frame
@@ -59,7 +59,7 @@ export default function ProjectGridItem({ project, index, onClick }: ProjectGrid
       </div>
       
       {/* Project Content */}
-      <div className="p-6">
+      <div className="p-6 flex flex-col flex-grow min-h-[220px]">
         <div className="flex items-center gap-2 mb-2">
           <h3 className="text-xl font-bold text-gray-900 dark:text-white">{project.title}</h3>
           {isMobile && <FaMobile className="text-blue-500 dark:text-blue-400" size={14} />}
@@ -74,7 +74,8 @@ export default function ProjectGridItem({ project, index, onClick }: ProjectGrid
           ))}
         </div>
         
-        <div className="text-blue-600 dark:text-blue-400 font-medium text-sm group-hover:underline flex items-center gap-1">
+        {/* This will push to the bottom because of flex-grow above */}
+        <div className="text-blue-600 dark:text-blue-400 font-medium text-sm group-hover:underline flex items-center gap-1 mt-auto pt-2">
           <span>Click to view details</span>
           <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
