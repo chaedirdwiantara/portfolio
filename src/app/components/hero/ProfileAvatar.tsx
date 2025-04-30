@@ -2,6 +2,7 @@
 
 import { motion } from 'framer-motion';
 import Image from 'next/image';
+import profileImage from '../../assets/images/chaedir.jpg';
 
 type ProfileAvatarProps = {
   name: string;
@@ -36,7 +37,7 @@ export default function ProfileAvatar({ name }: ProfileAvatarProps) {
             <div className="absolute inset-0 flex items-center justify-center">
               <div className="relative w-full h-full flex items-center justify-center">
                 <Image
-                  src="/assets/images/chaedir.jpg"
+                  src={profileImage}
                   alt={name}
                   fill
                   className="object-cover"
