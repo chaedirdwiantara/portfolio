@@ -19,9 +19,9 @@ export default function ProjectSearch({
   technologies 
 }: ProjectSearchProps) {
   return (
-    <div className="max-w-3xl mx-auto mb-12">
+    <div className="max-w-3xl mx-auto mb-4">
       {/* Search input - centered and proper width */}
-      <div className="flex justify-center mb-8">
+      <div className="flex justify-center mb-3">
         <div className="w-full max-w-md relative">
           <div className="absolute inset-y-0 left-3 flex items-center pointer-events-none text-gray-400 dark:text-gray-500">
             <FaSearch size={16} />

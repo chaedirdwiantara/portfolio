@@ -52,22 +52,12 @@ export default function ProjectsPageContent() {
     : null;
 
   return (
-    <div className="min-h-screen pt-24 pb-20 bg-gradient-to-b from-blue-50/40 via-white to-gray-50/70 dark:from-gray-900 dark:via-blue-950/10 dark:to-gray-950 relative">
+    <div className="min-h-screen pt-20 pb-16 bg-gradient-to-b from-blue-50/40 via-white to-gray-50/70 dark:from-gray-900 dark:via-blue-950/10 dark:to-gray-950 relative">
       {/* Subtle background accent elements for visual interest */}
       <div className="absolute top-0 right-0 w-96 h-96 bg-blue-100/30 dark:bg-blue-900/10 rounded-full filter blur-3xl -translate-y-1/2 translate-x-1/3 z-0"></div>
       <div className="absolute bottom-0 left-0 w-96 h-96 bg-indigo-100/20 dark:bg-indigo-900/10 rounded-full filter blur-3xl translate-y-1/3 -translate-x-1/3 z-0"></div>
       
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        {/* Header with subtle gradient text */}
-        <div className="max-w-4xl mx-auto text-center mb-16">
-          <h1 className="text-4xl md:text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-gray-900 to-blue-800 dark:from-white dark:to-blue-300 mb-6">
-            My Projects
-          </h1>
-          <p className="text-xl text-gray-600 dark:text-gray-300 mb-8 max-w-3xl mx-auto">
-            Explore a collection of my work spanning web applications, UI/UX design, and full-stack development.
-          </p>
-        </div>
-
         {/* If a project is selected, show detailed view */}
         <AnimatePresence>
           {selectedProjectData && (

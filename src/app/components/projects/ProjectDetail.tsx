@@ -23,35 +23,36 @@ export default function ProjectDetail({ project, onBack }: ProjectDetailProps) {
       animate={projectAnimations.fadeInUp.animate}
       exit={projectAnimations.fadeInUp.exit}
       transition={{ duration: 0.4 }}
-      className="mb-16"
+      className="mb-8"
     >
-      <button 
-        onClick={onBack} 
-        className="flex items-center gap-2 mb-6 text-gray-600 hover:text-blue-600 dark:text-gray-300 dark:hover:text-blue-400 font-medium transition-colors duration-200"
-      >
-        <FaArrowLeft size={14} />
-        <span>Back to all projects</span>
-      </button>
-      
-      <div className="bg-white dark:bg-gray-800 rounded-xl overflow-hidden shadow-xl border border-gray-100 dark:border-gray-700">
+      <div className="bg-white dark:bg-gray-800 rounded-xl overflow-hidden shadow-xl border border-gray-100 dark:border-gray-700 relative">
+        {/* Repositioned back button */}
+        <button 
+          onClick={onBack} 
+          className="absolute top-4 left-4 z-20 p-2.5 bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm rounded-full shadow-sm hover:shadow-md transition-all duration-200 flex items-center justify-center"
+          aria-label="Back to all projects"
+        >
+          <FaArrowLeft className="text-gray-500 dark:text-gray-400" size={16} />
+        </button>
+        
         {isMobile ? (
           // Mobile app detail view
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
             {/* Mobile app preview */}
-            <div className="flex justify-center items-center py-16 bg-gray-100 dark:bg-gray-900/60">
+            <div className="flex justify-center items-center py-8 bg-gray-100 dark:bg-gray-900/60">
               <PhoneFrame 
                 image={project.image}
                 alt={project.title}
                 platforms={project.platforms}
                 priority={true}
-                frameSize={{ width: '240px', height: '500px' }}
-                imageSize="(max-width: 768px) 80vw, 240px"
+                frameSize={{ width: '220px', height: '460px' }}
+                imageSize="(max-width: 768px) 80vw, 220px"
                 showPlatformBadges={false}
               />
             </div>
             
             {/* Project info */}
-            <div className="p-8 md:py-16 md:pr-16 md:pl-0">
+            <div className="p-5 md:py-8 md:pr-8 md:pl-0">
               <div className="flex items-center gap-3 mb-4">
                 <h2 className="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-gray-900 to-blue-800 dark:from-white dark:to-blue-300">
                   {project.title}
@@ -129,7 +130,7 @@ export default function ProjectDetail({ project, onBack }: ProjectDetailProps) {
         ) : (
           // Web project detail view - original layout
           <>
-            <div className="relative w-full h-64 md:h-96 overflow-hidden">
+            <div className="relative w-full h-40 md:h-64 overflow-hidden">
               <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-black/20 z-10" />
               
               {/* Project image */}
@@ -150,16 +151,16 @@ export default function ProjectDetail({ project, onBack }: ProjectDetailProps) {
               )}
             </div>
             
-            <div className="p-8 md:p-10">
-              <h2 className="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-gray-900 to-blue-800 dark:from-white dark:to-blue-300 mb-4">
+            <div className="p-5 md:p-6">
+              <h2 className="text-2xl md:text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-gray-900 to-blue-800 dark:from-white dark:to-blue-300 mb-3">
                 {project.title}
               </h2>
               
-              <p className="text-gray-600 dark:text-gray-300 mb-8 text-lg leading-relaxed">
+              <p className="text-gray-600 dark:text-gray-300 mb-6 text-lg leading-relaxed">
                 {project.description}
               </p>
               
-              <div className="flex flex-wrap gap-2 mb-10">
+              <div className="flex flex-wrap gap-2 mb-6">
                 {project.technologies.map((tech) => (
                   <TechBadge key={tech} technology={tech} size="md" />
                 ))}
