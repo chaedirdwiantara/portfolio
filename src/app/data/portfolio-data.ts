@@ -58,44 +58,95 @@ export const skills = [
   },
 ];
 
-// Import project images for usage with Next.js Image component
-import project1Image from '../assets/images/projects/project1.jpg';
-import project2Image from '../assets/images/projects/project2.jpg';
-import project3Image from '../assets/images/projects/project3.jpg';
-import defaultProjectImage from '../assets/images/projects/default-project.jpg';
+// Import images
+import placeholderImg from '../assets/images/default-project.jpg';
+import project1Img from '../assets/images/projects/project1.jpg';
+import project2Img from '../assets/images/projects/project2.jpg';
+import project3Img from '../assets/images/projects/project3.jpg';
 
+// Example projects data
 export const projects = [
   {
     id: 1,
-    title: "Project One",
-    description: "A modern web application built with Next.js and Tailwind CSS",
-    image: project1Image, 
-    technologies: ["Next.js", "React", "Tailwind CSS", "TypeScript"],
-    liveUrl: "https://project1.example.com",
-    sourceUrl: "https://github.com/yourusername/project1",
+    title: "Modern E-commerce Platform",
+    description: "A full-featured e-commerce platform built with Next.js, featuring product listings, shopping cart, user authentication, payment processing with Stripe, and an admin dashboard for inventory management.",
+    image: project1Img,
+    technologies: ["Next.js", "React", "TypeScript", "Tailwind CSS", "Stripe", "MongoDB"],
+    liveUrl: "https://example-ecommerce.com",
+    sourceUrl: "https://github.com/yourusername/ecommerce-platform",
     featured: true,
   },
   {
     id: 2,
-    title: "Project Two",
-    description: "Full-stack e-commerce platform with secure payment integration",
-    image: project2Image,
-    technologies: ["React", "Node.js", "Express", "MongoDB", "Stripe"],
-    liveUrl: "https://project2.example.com",
-    sourceUrl: "https://github.com/yourusername/project2",
+    title: "HealthTrack Mobile App",
+    description: "A comprehensive health tracking mobile application that helps users monitor their daily activity, nutrition, and sleep patterns. Features include customizable workout plans, meal tracking, and progress analytics.",
+    image: project2Img,
+    technologies: ["React Native", "TypeScript", "Firebase", "Redux", "Expo"],
+    sourceUrl: "https://github.com/yourusername/health-track-app",
+    isMobileApp: true,
+    appStoreUrl: "https://apps.apple.com/app/healthtrack",
+    playStoreUrl: "https://play.google.com/store/apps/details?id=com.healthtrack",
+    platforms: ["ios", "android"] as ("ios" | "android")[],
     featured: true,
   },
   {
     id: 3,
-    title: "Project Three",
-    description: "Mobile-responsive dashboard with data visualization",
-    image: project3Image,
-    technologies: ["React", "D3.js", "Material UI", "Firebase"],
-    liveUrl: "https://project3.example.com",
-    sourceUrl: "https://github.com/yourusername/project3",
+    title: "AI-Powered Content Generator",
+    description: "A web application that leverages OpenAI's API to generate various types of content including blog posts, social media captions, and marketing copy. Includes features for customizing tone, style, and content length.",
+    image: project3Img,
+    technologies: ["React", "Node.js", "Express", "OpenAI API", "MongoDB", "JWT"],
+    liveUrl: "https://content-generator-ai.com",
+    sourceUrl: "https://github.com/yourusername/ai-content-generator",
+  },
+  {
+    id: 4,
+    title: "TaskMaster Productivity App",
+    description: "A mobile task management application designed to boost productivity with features like task categorization, priority levels, reminders, and progress tracking. Syncs across devices for seamless workflow.",
+    image: placeholderImg,
+    technologies: ["Flutter", "Dart", "Firebase", "Cloud Firestore", "Google Auth"],
+    isMobileApp: true,
+    appStoreUrl: "https://apps.apple.com/app/taskmaster",
+    platforms: ["ios"] as ("ios" | "android")[],
     featured: false,
   },
-  // Add more projects as needed
+  {
+    id: 5,
+    title: "Real-time Collaborative Whiteboard",
+    description: "A web-based collaborative whiteboard application that allows multiple users to draw, add sticky notes, and share ideas in real-time. Perfect for remote teams, brainstorming sessions, and online education.",
+    image: placeholderImg,
+    technologies: ["React", "Socket.io", "Canvas API", "Node.js", "Redis", "AWS"],
+    liveUrl: "https://collab-whiteboard.io",
+    sourceUrl: "https://github.com/yourusername/collaborative-whiteboard",
+  },
+  {
+    id: 6,
+    title: "CityGuide Travel Companion",
+    description: "A mobile travel companion app featuring curated city guides, interactive maps, offline navigation, local recommendations, and trip planning tools. Includes augmented reality features for landmark identification.",
+    image: placeholderImg,
+    technologies: ["React Native", "GraphQL", "Apollo", "MapBox API", "AWS Amplify"],
+    isMobileApp: true,
+    playStoreUrl: "https://play.google.com/store/apps/details?id=com.cityguide",
+    platforms: ["android"] as ("ios" | "android")[],
+  },
+  {
+    id: 7,
+    title: "Financial Dashboard",
+    description: "A comprehensive financial dashboard for tracking investments, expenses, and income. Features include data visualization, budget planning tools, automated expense categorization, and financial goal setting.",
+    image: placeholderImg,
+    technologies: ["Vue.js", "D3.js", "TypeScript", "Node.js", "PostgreSQL", "Plaid API"],
+    liveUrl: "https://finance-dashboard-pro.com",
+    sourceUrl: "https://github.com/yourusername/finance-dashboard",
+  },
+  {
+    id: 8,
+    title: "AR Shopping Experience",
+    description: "A mobile application that enhances shopping with augmented reality, allowing users to visualize products in their space before purchasing. Includes 3D product viewing, measurements, and virtual try-on features.",
+    image: placeholderImg,
+    technologies: ["Swift", "ARKit", "SceneKit", "CoreML", "Firebase"],
+    isMobileApp: true,
+    appStoreUrl: "https://apps.apple.com/app/ar-shopping",
+    platforms: ["ios"] as ("ios" | "android")[],
+  }
 ];
 
 export const experiences = [

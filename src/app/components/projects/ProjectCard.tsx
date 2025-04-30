@@ -2,7 +2,7 @@
 
 import { motion } from 'framer-motion';
 import Image from 'next/image';
-import { FaGithub, FaGlobe, FaCode } from 'react-icons/fa';
+import { FaGithub, FaGlobe, FaCode, FaApple, FaAndroid, FaMobile, FaAppStore, FaGooglePlay } from 'react-icons/fa';
 import { StaticImageData } from 'next/image';
 
 interface ProjectCardProps {
@@ -15,11 +15,17 @@ interface ProjectCardProps {
     liveUrl?: string;
     sourceUrl?: string;
     featured?: boolean;
+    isMobileApp?: boolean;
+    appStoreUrl?: string;
+    playStoreUrl?: string;
+    platforms?: ('ios' | 'android')[];
   };
   index: number;
 }
 
 export default function ProjectCard({ project, index }: ProjectCardProps) {
+  const isMobile = project.isMobileApp;
+  
   return (
     <motion.div
       initial={{ opacity: 0, y: 30 }}
@@ -29,17 +35,58 @@ export default function ProjectCard({ project, index }: ProjectCardProps) {
       className="bg-white dark:bg-gray-800 rounded-xl overflow-hidden shadow-lg transition-all duration-300 hover:shadow-xl hover:-translate-y-2"
     >
       {/* Project Image */}
-      <div className="relative w-full h-48 overflow-hidden">
+      <div className={`relative w-full ${isMobile ? 'h-64' : 'h-48'} overflow-hidden ${isMobile ? 'py-2 bg-gray-100 dark:bg-gray-700/50' : ''}`}>
         <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent z-10" />
         
-        {/* Project image */}
-        <Image
-          src={project.image}
-          alt={project.title}
-          fill
-          className="object-cover"
-          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-        />
+        {isMobile ? (
+          // Mobile app with device frame
+          <div className="relative h-full mx-auto" style={{ width: '45%' }}>
+            {/* Phone frame */}
+            <div className="absolute inset-0 rounded-[24px] border-[8px] border-gray-800 dark:border-gray-600 z-20 overflow-hidden shadow-lg">
+              {/* Status bar */}
+              <div className="absolute top-0 left-0 right-0 h-4 bg-black z-30"></div>
+              
+              {/* App screenshot */}
+              <div className="absolute inset-0">
+                <Image
+                  src={project.image}
+                  alt={project.title}
+                  fill
+                  className="object-cover rounded-[16px]"
+                  sizes="200px"
+                />
+              </div>
+              
+              {/* Home indicator */}
+              <div className="absolute bottom-1 left-1/2 -translate-x-1/2 w-1/3 h-1 bg-white rounded-full z-30"></div>
+            </div>
+            
+            {/* Platform indicators */}
+            {project.platforms && (
+              <div className="absolute top-2 right-2 z-30 flex gap-1">
+                {project.platforms.includes('ios') && (
+                  <div className="bg-black/80 p-1 rounded-full">
+                    <FaApple className="text-white" size={12} />
+                  </div>
+                )}
+                {project.platforms.includes('android') && (
+                  <div className="bg-black/80 p-1 rounded-full">
+                    <FaAndroid className="text-white" size={12} />
+                  </div>
+                )}
+              </div>
+            )}
+          </div>
+        ) : (
+          // Standard web project image
+          <Image
+            src={project.image}
+            alt={project.title}
+            fill
+            className="object-cover"
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+          />
+        )}
         
         {/* Featured badge */}
         {project.featured && (
@@ -51,7 +98,11 @@ export default function ProjectCard({ project, index }: ProjectCardProps) {
       
       {/* Project Content */}
       <div className="p-6">
-        <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-2">{project.title}</h3>
+        <div className="flex items-center gap-2 mb-2">
+          <h3 className="text-xl font-bold text-gray-900 dark:text-white">{project.title}</h3>
+          {isMobile && <FaMobile className="text-blue-500 dark:text-blue-400" size={14} />}
+        </div>
+        
         <p className="text-gray-600 dark:text-gray-300 mb-4 line-clamp-3">{project.description}</p>
         
         {/* Technologies */}
@@ -67,19 +118,50 @@ export default function ProjectCard({ project, index }: ProjectCardProps) {
         </div>
         
         {/* Action buttons */}
-        <div className="flex items-center gap-3">
-          {project.liveUrl && (
-            <a 
-              href={project.liveUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex items-center gap-1.5 text-sm font-medium text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300"
-            >
-              <FaGlobe size={14} />
-              <span>Live Demo</span>
-            </a>
+        <div className="flex flex-wrap items-center gap-3">
+          {isMobile ? (
+            // Mobile app action buttons
+            <>
+              {project.appStoreUrl && (
+                <a 
+                  href={project.appStoreUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-1.5 text-sm font-medium text-gray-700 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white"
+                >
+                  <FaAppStore size={14} />
+                  <span>App Store</span>
+                </a>
+              )}
+              
+              {project.playStoreUrl && (
+                <a 
+                  href={project.playStoreUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-1.5 text-sm font-medium text-gray-700 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white"
+                >
+                  <FaGooglePlay size={14} />
+                  <span>Play Store</span>
+                </a>
+              )}
+            </>
+          ) : (
+            // Web project action buttons
+            project.liveUrl && (
+              <a 
+                href={project.liveUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-1.5 text-sm font-medium text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300"
+              >
+                <FaGlobe size={14} />
+                <span>Live Demo</span>
+              </a>
+            )
           )}
           
+          {/* Source code link for both types */}
           {project.sourceUrl && (
             <a 
               href={project.sourceUrl}
