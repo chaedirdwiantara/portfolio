@@ -37,9 +37,9 @@ export default function ProjectDetail({ project, onBack }: ProjectDetailProps) {
         
         {isMobile ? (
           // Mobile app detail view
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8 min-h-[560px]">
             {/* Mobile app preview */}
-            <div className="flex justify-center items-center py-8 bg-gray-100 dark:bg-gray-900/60">
+            <div className="flex justify-center items-center py-8 bg-gray-100 dark:bg-gray-900/60 min-h-[460px]">
               <PhoneFrame 
                 image={project.image}
                 alt={project.title}
@@ -52,8 +52,8 @@ export default function ProjectDetail({ project, onBack }: ProjectDetailProps) {
             </div>
             
             {/* Project info */}
-            <div className="p-5 md:py-8 md:pr-8 md:pl-0">
-              <div className="flex items-center gap-3 mb-4">
+            <div className="p-5 md:py-10 md:pr-8 md:pl-0 flex flex-col justify-center min-h-[460px]">
+              <div className="flex items-center gap-3 mb-5">
                 <h2 className="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-gray-900 to-blue-800 dark:from-white dark:to-blue-300">
                   {project.title}
                 </h2>
@@ -62,7 +62,7 @@ export default function ProjectDetail({ project, onBack }: ProjectDetailProps) {
               
               {/* Platform badges */}
               {project.platforms && (
-                <div className="flex gap-2 mb-6">
+                <div className="flex gap-2 mb-8">
                   {project.platforms.includes('ios') && (
                     <span className="inline-flex items-center gap-1 text-xs font-medium px-2.5 py-1 bg-black text-white rounded-full">
                       <FaApple size={12} />
@@ -82,7 +82,7 @@ export default function ProjectDetail({ project, onBack }: ProjectDetailProps) {
                 {project.description}
               </p>
               
-              <div className="flex flex-wrap gap-2 mb-10">
+              <div className="flex flex-wrap gap-2 mb-8">
                 {project.technologies.map((tech) => (
                   <TechBadge key={tech} technology={tech} size="md" />
                 ))}
@@ -128,39 +128,40 @@ export default function ProjectDetail({ project, onBack }: ProjectDetailProps) {
             </div>
           </div>
         ) : (
-          // Web project detail view - original layout
-          <>
-            <div className="relative w-full h-40 md:h-64 overflow-hidden">
-              <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-black/20 z-10" />
-              
-              {/* Project image */}
-              <Image
-                src={project.image}
-                alt={project.title}
-                fill
-                className="object-cover"
-                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 100vw, 100vw"
-                priority
-              />
-              
-              {/* Featured badge */}
-              {project.featured && (
-                <div className="absolute top-4 right-4 z-20 bg-gradient-to-r from-blue-600 to-blue-500 text-white text-sm font-bold px-4 py-1.5 rounded-full shadow-md">
-                  Featured Project
-                </div>
-              )}
+          // Web project detail view - updated to match mobile layout
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8 min-h-[560px]">
+            {/* Web project preview */}
+            <div className="relative overflow-hidden bg-gray-100 dark:bg-gray-900/60 flex items-center justify-center min-h-[460px]">
+              <div className="relative w-full h-64 md:h-[360px] lg:h-[420px]">
+                <Image
+                  src={project.image}
+                  alt={project.title}
+                  fill
+                  className="object-cover"
+                  sizes="(max-width: 768px) 100vw, 50vw"
+                  priority
+                />
+                
+                {/* Featured badge */}
+                {project.featured && (
+                  <div className="absolute top-4 right-4 z-20 bg-gradient-to-r from-blue-600 to-blue-500 text-white text-sm font-bold px-4 py-1.5 rounded-full shadow-md">
+                    Featured Project
+                  </div>
+                )}
+              </div>
             </div>
             
-            <div className="p-5 md:p-6">
-              <h2 className="text-2xl md:text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-gray-900 to-blue-800 dark:from-white dark:to-blue-300 mb-3">
+            {/* Project info */}
+            <div className="p-6 md:py-10 md:px-8 flex flex-col justify-center min-h-[460px]">
+              <h2 className="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-gray-900 to-blue-800 dark:from-white dark:to-blue-300 mb-5">
                 {project.title}
               </h2>
               
-              <p className="text-gray-600 dark:text-gray-300 mb-6 text-lg leading-relaxed">
+              <p className="text-gray-600 dark:text-gray-300 mb-8 text-lg leading-relaxed">
                 {project.description}
               </p>
               
-              <div className="flex flex-wrap gap-2 mb-6">
+              <div className="flex flex-wrap gap-2 mb-8">
                 {project.technologies.map((tech) => (
                   <TechBadge key={tech} technology={tech} size="md" />
                 ))}
@@ -192,7 +193,7 @@ export default function ProjectDetail({ project, onBack }: ProjectDetailProps) {
                 )}
               </div>
             </div>
-          </>
+          </div>
         )}
       </div>
     </motion.div>
