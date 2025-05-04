@@ -7,35 +7,34 @@ import ProjectDetail from './ProjectDetail';
 import ProjectSearch from './ProjectSearch';
 import ProjectGridItem from './ProjectGridItem';
 import ProjectSkeletonLoader from './ProjectSkeletonLoader';
+import LoadMoreButton from '../common/LoadMoreButton';
 import { Project } from '../../types/project';
 import { usePathname } from 'next/navigation';
+import usePagination from '../../lib/hooks/usePagination';
+import { filterProjects, getUniqueTechnologies } from '../../lib/utils/projectUtils';
+
+// Number of projects to load per batch
+const PROJECTS_PER_PAGE = 3;
 
 export default function ProjectsPageContent() {
   const [filter, setFilter] = useState<string | null>(null);
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedProject, setSelectedProject] = useState<number | null>(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [isLoadingMore, setIsLoadingMore] = useState(false);
   const pathname = usePathname();
   
   // Get unique technologies from all projects
-  const allTechnologies = Array.from(
-    new Set(
-      projects.flatMap(project => project.technologies)
-    )
-  );
+  const allTechnologies = getUniqueTechnologies(projects);
 
   // Filter projects based on selected technology and search query
-  const filteredProjects = projects.filter(project => {
-    // Filter by technology if a filter is selected
-    const matchesTech = filter ? project.technologies.includes(filter) : true;
-    
-    // Filter by search query
-    const matchesSearch = searchQuery 
-      ? project.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        project.description.toLowerCase().includes(searchQuery.toLowerCase())
-      : true;
-    
-    return matchesTech && matchesSearch;
+  const filteredProjects = filterProjects(projects, filter, searchQuery);
+  
+  // Use pagination hook for the filtered projects
+  const { visibleItems: projectsToDisplay, loadMore, hasMore } = usePagination({
+    items: filteredProjects,
+    initialItemsPerPage: PROJECTS_PER_PAGE,
+    dependencies: [filter, searchQuery]
   });
 
   // Initialize page and handle loading state
@@ -43,10 +42,10 @@ export default function ProjectsPageContent() {
     // Scroll to top when page loads
     window.scrollTo(0, 0);
     
-    // Simulate loading delay if needed (helps show the skeleton if page loads too quickly)
+    // Simulate loading delay if needed
     const timer = setTimeout(() => {
       setIsLoading(false);
-    }, 800);
+    }, 600);
     
     return () => clearTimeout(timer);
   }, [pathname]);
@@ -56,6 +55,18 @@ export default function ProjectsPageContent() {
     setSelectedProject(projectId);
     // Scroll to top to show selected project
     window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+  
+  // Handle loading more projects with simulated loading state
+  const handleLoadMore = async () => {
+    setIsLoadingMore(true);
+    
+    // Simulate network delay for smoother UX
+    await new Promise(resolve => setTimeout(resolve, 500));
+    
+    // Load more projects
+    loadMore();
+    setIsLoadingMore(false);
   };
 
   // Get selected project data
@@ -95,34 +106,46 @@ export default function ProjectsPageContent() {
             {isLoading ? (
               <ProjectSkeletonLoader />
             ) : (
-              /* Projects grid */
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                {filteredProjects.length > 0 ? (
-                  filteredProjects.map((project, index) => (
-                    <ProjectGridItem
-                      key={project.id}
-                      project={project}
-                      index={index}
-                      onClick={() => handleProjectClick(project.id)}
-                    />
-                  ))
-                ) : (
-                  <div className="col-span-1 md:col-span-2 lg:col-span-3 py-16 text-center">
-                    <p className="text-gray-600 dark:text-gray-400 text-lg">
-                      No projects found matching your criteria.
-                    </p>
-                    <button
-                      onClick={() => {
-                        setFilter(null);
-                        setSearchQuery('');
-                      }}
-                      className="mt-4 px-4 py-2 text-blue-600 dark:text-blue-400 font-medium hover:underline"
-                    >
-                      Clear filters
-                    </button>
-                  </div>
+              <>
+                {/* Projects grid */}
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                  {projectsToDisplay.length > 0 ? (
+                    projectsToDisplay.map((project, index) => (
+                      <ProjectGridItem
+                        key={project.id}
+                        project={project}
+                        index={index}
+                        onClick={() => handleProjectClick(project.id)}
+                      />
+                    ))
+                  ) : (
+                    <div className="col-span-1 md:col-span-2 lg:col-span-3 py-16 text-center">
+                      <p className="text-gray-600 dark:text-gray-400 text-lg">
+                        No projects found matching your criteria.
+                      </p>
+                      <button
+                        onClick={() => {
+                          setFilter(null);
+                          setSearchQuery('');
+                        }}
+                        className="mt-4 px-4 py-2 text-blue-600 dark:text-blue-400 font-medium hover:underline"
+                      >
+                        Clear filters
+                      </button>
+                    </div>
+                  )}
+                </div>
+                
+                {/* Load more button */}
+                {hasMore && projectsToDisplay.length > 0 && (
+                  <LoadMoreButton 
+                    onClick={handleLoadMore} 
+                    isLoading={isLoadingMore}
+                  >
+                    Load More Projects
+                  </LoadMoreButton>
                 )}
-              </div>
+              </>
             )}
           </>
         )}
