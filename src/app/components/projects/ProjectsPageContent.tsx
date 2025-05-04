@@ -6,12 +6,16 @@ import { projects } from '../../data/portfolio-data';
 import ProjectDetail from './ProjectDetail';
 import ProjectSearch from './ProjectSearch';
 import ProjectGridItem from './ProjectGridItem';
+import ProjectSkeletonLoader from './ProjectSkeletonLoader';
 import { Project } from '../../types/project';
+import { usePathname } from 'next/navigation';
 
 export default function ProjectsPageContent() {
   const [filter, setFilter] = useState<string | null>(null);
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedProject, setSelectedProject] = useState<number | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const pathname = usePathname();
   
   // Get unique technologies from all projects
   const allTechnologies = Array.from(
@@ -34,10 +38,18 @@ export default function ProjectsPageContent() {
     return matchesTech && matchesSearch;
   });
 
-  // Scroll to top when page loads
+  // Initialize page and handle loading state
   useEffect(() => {
+    // Scroll to top when page loads
     window.scrollTo(0, 0);
-  }, []);
+    
+    // Simulate loading delay if needed (helps show the skeleton if page loads too quickly)
+    const timer = setTimeout(() => {
+      setIsLoading(false);
+    }, 800);
+    
+    return () => clearTimeout(timer);
+  }, [pathname]);
 
   // Handle project selection for detailed view
   const handleProjectClick = (projectId: number) => {
@@ -79,34 +91,39 @@ export default function ProjectsPageContent() {
               technologies={allTechnologies}
             />
 
-            {/* Projects grid */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {filteredProjects.length > 0 ? (
-                filteredProjects.map((project, index) => (
-                  <ProjectGridItem
-                    key={project.id}
-                    project={project}
-                    index={index}
-                    onClick={() => handleProjectClick(project.id)}
-                  />
-                ))
-              ) : (
-                <div className="col-span-1 md:col-span-2 lg:col-span-3 py-16 text-center">
-                  <p className="text-gray-600 dark:text-gray-400 text-lg">
-                    No projects found matching your criteria.
-                  </p>
-                  <button
-                    onClick={() => {
-                      setFilter(null);
-                      setSearchQuery('');
-                    }}
-                    className="mt-4 px-4 py-2 text-blue-600 dark:text-blue-400 font-medium hover:underline"
-                  >
-                    Clear filters
-                  </button>
-                </div>
-              )}
-            </div>
+            {/* Show skeleton loader while loading */}
+            {isLoading ? (
+              <ProjectSkeletonLoader />
+            ) : (
+              /* Projects grid */
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                {filteredProjects.length > 0 ? (
+                  filteredProjects.map((project, index) => (
+                    <ProjectGridItem
+                      key={project.id}
+                      project={project}
+                      index={index}
+                      onClick={() => handleProjectClick(project.id)}
+                    />
+                  ))
+                ) : (
+                  <div className="col-span-1 md:col-span-2 lg:col-span-3 py-16 text-center">
+                    <p className="text-gray-600 dark:text-gray-400 text-lg">
+                      No projects found matching your criteria.
+                    </p>
+                    <button
+                      onClick={() => {
+                        setFilter(null);
+                        setSearchQuery('');
+                      }}
+                      className="mt-4 px-4 py-2 text-blue-600 dark:text-blue-400 font-medium hover:underline"
+                    >
+                      Clear filters
+                    </button>
+                  </div>
+                )}
+              </div>
+            )}
           </>
         )}
       </div>

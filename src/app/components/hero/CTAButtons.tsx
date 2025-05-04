@@ -3,8 +3,15 @@
 import { motion } from 'framer-motion';
 import Link from 'next/link';
 import { FaArrowRight } from 'react-icons/fa';
+import { useLoading } from '../LoadingProvider';
 
 export default function CTAButtons() {
+  const { startLoading } = useLoading();
+  
+  const handleProjectsClick = () => {
+    startLoading('/projects');
+  };
+  
   return (
     <motion.div 
       initial={{ opacity: 0, y: 20 }}
@@ -14,6 +21,8 @@ export default function CTAButtons() {
     >
       <Link 
         href="/projects"
+        prefetch={true}
+        onClick={handleProjectsClick}
         className="group relative overflow-hidden flex items-center justify-center gap-2 px-8 py-4 rounded-full text-white bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 transition-all duration-300 shadow-md hover:shadow-xl text-base font-medium"
       >
         <span className="relative z-10">View My Work</span>
