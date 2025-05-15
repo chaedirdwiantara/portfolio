@@ -1,5 +1,5 @@
 export const personalInfo = {
-  name: "Chaedir Dwiantara",
+  name: "Andi Chaedir",
   title: "Full Stack Developer",
   email: "chaedirdwiantara@gmail.com", 
   location: "Bogor, Indonesia", 
