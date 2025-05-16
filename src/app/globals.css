@@ -78,3 +78,36 @@ body {
 .hide-scrollbar::-webkit-scrollbar {
   display: none;  /* Chrome, Safari, Opera */
 }
+
+/* Add these form input styles to improve focus state and cursor visibility */
+
+/* Improve form element focus states */
+input:focus, 
+textarea:focus, 
+select:focus {
+  @apply outline-none ring-2 ring-blue-500/50 border-blue-500;
+  caret-color: theme('colors.blue.500'); /* Explicitly set the cursor color */
+}
+
+/* Enhance text input and textarea appearance */
+input[type="text"],
+input[type="email"],
+input[type="url"],
+input[type="password"],
+textarea {
+  @apply px-4 py-3 border border-gray-300 dark:border-gray-700 rounded-md;
+  @apply focus:border-blue-500 focus:ring-2 focus:ring-blue-500/50;
+  @apply dark:bg-gray-800 dark:text-white;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+/* Add a slightly lighter background when input is focused */
+input:focus,
+textarea:focus {
+  @apply bg-blue-50 dark:bg-gray-700;
+}
+
+/* Improve form label styling */
+form label {
+  @apply block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1;
+}

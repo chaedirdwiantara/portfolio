@@ -120,12 +120,22 @@ export default function ProjectForm({ projectId }: ProjectFormProps) {
         imageUrl = await uploadProjectImage(imageFile, 'project-images', project.image_url);
       }
       
+      // Format technologies as a proper PostgreSQL array
+      const formattedTechnologies = project.technologies ? 
+        (typeof project.technologies === 'string' 
+          ? project.technologies.split(',')
+              .map(tech => tech.trim())
+              .filter(tech => tech.length > 0) 
+          : project.technologies) 
+        : [];
+      
       const supabase = createBrowserClient();
       
       // Prepare data for saving
       const projectData = {
         ...project,
-        image_url: imageUrl
+        image_url: imageUrl,
+        technologies: formattedTechnologies
       };
       
       if (projectId) {
@@ -230,7 +240,7 @@ export default function ProjectForm({ projectId }: ProjectFormProps) {
                 value={project.title}
                 onChange={handleChange}
                 required
-                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-gray-800 dark:border-gray-700"
+                className="mt-1 block w-full px-4 py-3 rounded-md border border-gray-300 shadow-sm focus:border-blue-500 focus:ring-2 focus:ring-blue-500/50 dark:bg-gray-800 dark:border-gray-700 dark:text-white caret-blue-500"
                 placeholder="Project title"
               />
             </div>
@@ -245,7 +255,7 @@ export default function ProjectForm({ projectId }: ProjectFormProps) {
                 value={project.description || ''}
                 onChange={handleChange}
                 rows={4}
-                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-gray-800 dark:border-gray-700"
+                className="mt-1 block w-full px-4 py-3 rounded-md border border-gray-300 shadow-sm focus:border-blue-500 focus:ring-2 focus:ring-blue-500/50 dark:bg-gray-800 dark:border-gray-700 dark:text-white caret-blue-500"
                 placeholder="Project description"
               />
             </div>
@@ -260,7 +270,7 @@ export default function ProjectForm({ projectId }: ProjectFormProps) {
                 name="technologies"
                 value={project.technologies || ''}
                 onChange={handleChange}
-                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-gray-800 dark:border-gray-700"
+                className="mt-1 block w-full px-4 py-3 rounded-md border border-gray-300 shadow-sm focus:border-blue-500 focus:ring-2 focus:ring-blue-500/50 dark:bg-gray-800 dark:border-gray-700 dark:text-white caret-blue-500"
                 placeholder="React, Node.js, Tailwind CSS"
               />
               <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">
@@ -294,7 +304,7 @@ export default function ProjectForm({ projectId }: ProjectFormProps) {
                     name="live_url"
                     value={project.live_url || ''}
                     onChange={handleChange}
-                    className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-gray-800 dark:border-gray-700"
+                    className="mt-1 block w-full px-4 py-3 rounded-md border border-gray-300 shadow-sm focus:border-blue-500 focus:ring-2 focus:ring-blue-500/50 dark:bg-gray-800 dark:border-gray-700 dark:text-white caret-blue-500"
                     placeholder="https://example.com"
                   />
                 </div>
@@ -309,7 +319,7 @@ export default function ProjectForm({ projectId }: ProjectFormProps) {
                     name="source_url"
                     value={project.source_url || ''}
                     onChange={handleChange}
-                    className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-gray-800 dark:border-gray-700"
+                    className="mt-1 block w-full px-4 py-3 rounded-md border border-gray-300 shadow-sm focus:border-blue-500 focus:ring-2 focus:ring-blue-500/50 dark:bg-gray-800 dark:border-gray-700 dark:text-white caret-blue-500"
                     placeholder="https://github.com/username/repo"
                   />
                 </div>
@@ -329,7 +339,7 @@ export default function ProjectForm({ projectId }: ProjectFormProps) {
                     name="ios_url"
                     value={project.ios_url || ''}
                     onChange={handleChange}
-                    className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-gray-800 dark:border-gray-700"
+                    className="mt-1 block w-full px-4 py-3 rounded-md border border-gray-300 shadow-sm focus:border-blue-500 focus:ring-2 focus:ring-blue-500/50 dark:bg-gray-800 dark:border-gray-700 dark:text-white caret-blue-500"
                     placeholder="https://apps.apple.com/app/id123456789"
                   />
                 </div>
@@ -344,7 +354,7 @@ export default function ProjectForm({ projectId }: ProjectFormProps) {
                     name="android_url"
                     value={project.android_url || ''}
                     onChange={handleChange}
-                    className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-gray-800 dark:border-gray-700"
+                    className="mt-1 block w-full px-4 py-3 rounded-md border border-gray-300 shadow-sm focus:border-blue-500 focus:ring-2 focus:ring-blue-500/50 dark:bg-gray-800 dark:border-gray-700 dark:text-white caret-blue-500"
                     placeholder="https://play.google.com/store/apps/details?id=com.example.app"
                   />
                 </div>
@@ -360,7 +370,7 @@ export default function ProjectForm({ projectId }: ProjectFormProps) {
                     name="source_url"
                     value={project.source_url || ''}
                     onChange={handleChange}
-                    className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-gray-800 dark:border-gray-700"
+                    className="mt-1 block w-full px-4 py-3 rounded-md border border-gray-300 shadow-sm focus:border-blue-500 focus:ring-2 focus:ring-blue-500/50 dark:bg-gray-800 dark:border-gray-700 dark:text-white caret-blue-500"
                     placeholder="https://github.com/username/repo"
                   />
                 </div>
