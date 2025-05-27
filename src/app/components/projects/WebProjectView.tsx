@@ -13,15 +13,15 @@ const WebProjectView = ({ project }: WebProjectViewProps) => {
   const isStringUrl = typeof project.image === 'string';
   
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8 min-h-[560px]">
+    <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
       {/* Web project preview */}
-      <div className="relative overflow-hidden bg-gray-100 dark:bg-gray-900/60 flex items-center justify-center min-h-[460px]">
-        <div className="relative w-full h-64 md:h-[360px] lg:h-[420px]">
+      <div className="relative overflow-hidden bg-gray-100 dark:bg-gray-900/60 md:col-span-2 rounded-xl shadow-md">
+        <div className="w-full aspect-video overflow-hidden">
           {isStringUrl ? (
             <img
               src={project.image as string}
               alt={project.title}
-              className="absolute inset-0 w-full h-full object-cover"
+              className="w-full h-full object-cover"
             />
           ) : (
             <Image
@@ -29,7 +29,7 @@ const WebProjectView = ({ project }: WebProjectViewProps) => {
               alt={project.title}
               fill
               className="object-cover"
-              sizes="(max-width: 768px) 100vw, 50vw"
+              sizes="(max-width: 768px) 100vw, 66vw"
               priority
             />
           )}
@@ -44,7 +44,7 @@ const WebProjectView = ({ project }: WebProjectViewProps) => {
       </div>
       
       {/* Project info */}
-      <div className="p-6 md:py-10 md:px-8 flex flex-col h-full min-h-[460px]">
+      <div className="p-6 md:py-8 md:px-8 flex flex-col md:col-span-1 bg-white/50 dark:bg-gray-900/30 rounded-xl shadow-sm">
         <div>
           <h2 className="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-gray-900 to-blue-800 dark:from-white dark:to-blue-300 mb-5">
             {project.title}
