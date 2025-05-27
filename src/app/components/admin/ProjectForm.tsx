@@ -3,9 +3,10 @@
 import { useState, useEffect, ChangeEvent, FormEvent } from 'react';
 import { useRouter } from 'next/navigation';
 import { createBrowserClient } from '@/app/lib/supabase/client';
-import { uploadProjectImage } from '@/app/lib/supabase/uploadImage';
+import { uploadProjectImage, uploadMultipleImages } from '@/app/lib/supabase/uploadImage';
 import LoadMoreButton from '@/app/components/common/LoadMoreButton';
 import ImageUploader from '@/app/components/common/ImageUploader';
+import MultiImageUploader from '@/app/components/common/MultiImageUploader';
 
 // Define the project type
 type Project = {
@@ -13,6 +14,7 @@ type Project = {
   title: string;
   description: string;
   image_url: string | null;
+  images_urls: string[] | null;
   technologies: string | null;
   // Web specific
   live_url: string | null;
@@ -34,6 +36,7 @@ export default function ProjectForm({ projectId }: ProjectFormProps) {
     title: '',
     description: '',
     image_url: null,
+    images_urls: null,
     technologies: '',
     live_url: '',
     source_url: '',
@@ -47,6 +50,8 @@ export default function ProjectForm({ projectId }: ProjectFormProps) {
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [imageFile, setImageFile] = useState<File | null>(null);
+  const [multipleImageFiles, setMultipleImageFiles] = useState<File[]>([]);
+  const [additionalImageUrls, setAdditionalImageUrls] = useState<string[]>([]);
   const router = useRouter();
   
   // Fetch project data if editing
@@ -66,6 +71,9 @@ export default function ProjectForm({ projectId }: ProjectFormProps) {
         if (error) throw error;
         
         setProject(data);
+        if (data.images_urls) {
+          setAdditionalImageUrls(data.images_urls);
+        }
       } catch (err: any) {
         console.error('Error fetching project:', err);
         setError(err.message || 'Failed to load project');
@@ -94,6 +102,12 @@ export default function ProjectForm({ projectId }: ProjectFormProps) {
     setImageFile(file);
   };
 
+  // Handle multiple image selection
+  const handleMultipleImagesChange = (files: File[], urls: string[]) => {
+    setMultipleImageFiles(files);
+    setAdditionalImageUrls(urls.filter(url => !url.startsWith('blob:')));
+  };
+
   // Toggle mobile app status
   const handleMobileToggle = (isMobile: boolean) => {
     setProject(prev => ({
@@ -120,6 +134,12 @@ export default function ProjectForm({ projectId }: ProjectFormProps) {
         imageUrl = await uploadProjectImage(imageFile, 'project-images', project.image_url);
       }
       
+      // Upload additional images if provided
+      let imagesUrls = additionalImageUrls;
+      if (multipleImageFiles.length > 0) {
+        imagesUrls = await uploadMultipleImages(multipleImageFiles, 'project-images', additionalImageUrls);
+      }
+      
       // Format technologies as a proper PostgreSQL array
       const formattedTechnologies = project.technologies ? 
         (typeof project.technologies === 'string' 
@@ -135,6 +155,7 @@ export default function ProjectForm({ projectId }: ProjectFormProps) {
       const projectData = {
         ...project,
         image_url: imageUrl,
+        images_urls: imagesUrls,
         technologies: formattedTechnologies
       };
       
@@ -284,10 +305,17 @@ export default function ProjectForm({ projectId }: ProjectFormProps) {
             <ImageUploader
               initialImage={project.image_url}
               onImageChange={handleImageChange}
-              label="Project Image"
+              label="Main Project Image"
               aspectRatio="landscape"
               height="h-48"
               width="w-full"
+              maxSizeMB={2}
+            />
+            
+            <MultiImageUploader
+              initialImages={project.images_urls || []}
+              onImagesChange={handleMultipleImagesChange}
+              label="Additional Project Images (Gallery)"
               maxSizeMB={2}
             />
             

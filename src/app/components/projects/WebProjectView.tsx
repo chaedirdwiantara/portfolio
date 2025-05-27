@@ -4,6 +4,7 @@ import { FaGlobe, FaGithub } from 'react-icons/fa';
 import { Project } from '../../types/project';
 import { TechBadges } from './ui/ProjectBadges';
 import ActionButton from './ui/ActionButton';
+import ImageSlider from './ui/ImageSlider';
 
 interface WebProjectViewProps {
   project: Project;
@@ -11,36 +12,51 @@ interface WebProjectViewProps {
 
 const WebProjectView = ({ project }: WebProjectViewProps) => {
   const isStringUrl = typeof project.image === 'string';
+  const hasMultipleImages = project.images_urls && project.images_urls.length > 0;
+  
+  // Prepare images array for the slider
+  const sliderImages = hasMultipleImages
+    ? project.images_urls || []
+    : [project.image];
   
   return (
     <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
       {/* Web project preview */}
       <div className="relative overflow-hidden bg-gray-100 dark:bg-gray-900/60 md:col-span-2 rounded-xl shadow-md">
-        <div className="w-full aspect-video overflow-hidden">
-          {isStringUrl ? (
-            <img
-              src={project.image as string}
-              alt={project.title}
-              className="w-full h-full object-cover"
-            />
-          ) : (
-            <Image
-              src={project.image}
-              alt={project.title}
-              fill
-              className="object-cover"
-              sizes="(max-width: 768px) 100vw, 66vw"
-              priority
-            />
-          )}
-          
-          {/* Featured badge */}
-          {project.featured && (
-            <div className="absolute top-4 right-4 z-20 bg-gradient-to-r from-blue-600 to-blue-500 text-white text-sm font-bold px-4 py-1.5 rounded-full shadow-md">
-              Featured Project
-            </div>
-          )}
-        </div>
+        {hasMultipleImages ? (
+          <ImageSlider 
+            images={sliderImages} 
+            alt={project.title}
+            priority={true}
+            sizes="(max-width: 768px) 100vw, 66vw"
+          />
+        ) : (
+          <div className="w-full aspect-video overflow-hidden">
+            {isStringUrl ? (
+              <img
+                src={project.image as string}
+                alt={project.title}
+                className="w-full h-full object-cover"
+              />
+            ) : (
+              <Image
+                src={project.image}
+                alt={project.title}
+                fill
+                className="object-cover"
+                sizes="(max-width: 768px) 100vw, 66vw"
+                priority
+              />
+            )}
+          </div>
+        )}
+        
+        {/* Featured badge */}
+        {project.featured && (
+          <div className="absolute top-4 right-4 z-20 bg-gradient-to-r from-blue-600 to-blue-500 text-white text-sm font-bold px-4 py-1.5 rounded-full shadow-md">
+            Featured Project
+          </div>
+        )}
       </div>
       
       {/* Project info */}

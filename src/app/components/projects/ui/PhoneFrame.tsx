@@ -1,9 +1,12 @@
+import React from 'react';
 import Image from 'next/image';
 import { StaticImageData } from 'next/image';
 import { FaApple, FaAndroid } from 'react-icons/fa';
+import ImageSlider from './ImageSlider';
 
 interface PhoneFrameProps {
   image: StaticImageData | string;
+  images?: string[];
   alt: string;
   platforms?: ('ios' | 'android')[];
   priority?: boolean;
@@ -17,6 +20,7 @@ interface PhoneFrameProps {
  */
 export default function PhoneFrame({
   image,
+  images,
   alt,
   platforms,
   priority = false,
@@ -25,6 +29,7 @@ export default function PhoneFrame({
   showPlatformBadges = true
 }: PhoneFrameProps) {
   const isStringUrl = typeof image === 'string';
+  const hasMultipleImages = images && images.length > 0;
   
   return (
     <div className="relative h-full mx-auto" style={typeof frameSize === 'string' ? { width: frameSize } : { width: frameSize.width, height: frameSize.height }}>
@@ -35,7 +40,18 @@ export default function PhoneFrame({
         
         {/* App screenshot with subtle overlay for consistency */}
         <div className="absolute inset-0">
-          {isStringUrl ? (
+          {hasMultipleImages ? (
+            <ImageSlider
+              images={images || []}
+              alt={alt}
+              aspectRatio=""
+              className="rounded-[16px]"
+              sizes={imageSize}
+              priority={priority}
+              autoplay={true}
+              speed={4000}
+            />
+          ) : isStringUrl ? (
             <img
               src={image as string}
               alt={alt}

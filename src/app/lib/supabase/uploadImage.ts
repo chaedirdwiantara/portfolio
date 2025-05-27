@@ -63,4 +63,30 @@ export async function uploadProjectImage(
     console.error('Error uploading file:', error);
     throw new Error(`Upload failed: ${error.message}`);
   }
+}
+
+/**
+ * Uploads multiple images to Supabase Storage
+ * @param files Array of files to upload
+ * @param bucket The storage bucket name (defaults to 'project-images')
+ * @param existingUrls Optional: array of existing file URLs to replace
+ * @returns Array of URLs of the uploaded files
+ */
+export async function uploadMultipleImages(
+  files: File[],
+  bucket: string = 'project-images',
+  existingUrls: string[] = []
+): Promise<string[]> {
+  if (!files || files.length === 0) return existingUrls;
+  
+  try {
+    const uploadPromises = files.map(file => uploadProjectImage(file, bucket));
+    const newUrls = await Promise.all(uploadPromises);
+    
+    // Combine existing URLs (that weren't replaced) with new URLs
+    return [...existingUrls, ...newUrls];
+  } catch (error: any) {
+    console.error('Error uploading multiple files:', error);
+    throw new Error(`Multiple uploads failed: ${error.message}`);
+  }
 } 

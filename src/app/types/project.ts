@@ -8,6 +8,7 @@ export interface Project {
   title: string;
   description: string;
   image: StaticImageData | string;
+  images_urls?: string[];
   technologies: string[];
   liveUrl?: string;
   sourceUrl?: string;
