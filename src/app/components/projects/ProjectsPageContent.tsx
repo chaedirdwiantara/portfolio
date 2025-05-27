@@ -22,6 +22,7 @@ type SupabaseProject = {
   title: string;
   description: string;
   image_url: string | null;
+  images_urls: string[] | null;
   technologies: string[] | null;
   live_url: string | null;
   source_url: string | null;
@@ -38,6 +39,7 @@ const convertSupabaseProject = (project: SupabaseProject): Project => {
     title: project.title,
     description: project.description,
     image: project.image_url || '/images/placeholder-project.jpg',
+    images_urls: project.images_urls || [],
     technologies: project.technologies || [],
     liveUrl: project.live_url || undefined,
     sourceUrl: project.source_url || undefined,
