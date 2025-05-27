@@ -3,7 +3,7 @@ import { StaticImageData } from 'next/image';
 import { FaApple, FaAndroid } from 'react-icons/fa';
 
 interface PhoneFrameProps {
-  image: StaticImageData;
+  image: StaticImageData | string;
   alt: string;
   platforms?: ('ios' | 'android')[];
   priority?: boolean;
@@ -24,6 +24,8 @@ export default function PhoneFrame({
   frameSize = "45%",
   showPlatformBadges = true
 }: PhoneFrameProps) {
+  const isStringUrl = typeof image === 'string';
+  
   return (
     <div className="relative h-full mx-auto" style={typeof frameSize === 'string' ? { width: frameSize } : { width: frameSize.width, height: frameSize.height }}>
       {/* Phone frame */}
@@ -33,14 +35,22 @@ export default function PhoneFrame({
         
         {/* App screenshot with subtle overlay for consistency */}
         <div className="absolute inset-0">
-          <Image
-            src={image}
-            alt={alt}
-            fill
-            className="object-cover rounded-[16px]"
-            sizes={imageSize}
-            priority={priority}
-          />
+          {isStringUrl ? (
+            <img
+              src={image as string}
+              alt={alt}
+              className="absolute inset-0 w-full h-full object-cover rounded-[16px]"
+            />
+          ) : (
+            <Image
+              src={image}
+              alt={alt}
+              fill
+              className="object-cover rounded-[16px]"
+              sizes={imageSize}
+              priority={priority}
+            />
+          )}
           {/* Subtle overlay inside phone frame for consistency */}
           <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent z-10"></div>
         </div>

@@ -15,6 +15,7 @@ interface ProjectGridItemProps {
 
 export default function ProjectGridItem({ project, index, onClick }: ProjectGridItemProps) {
   const isMobile = project.isMobileApp;
+  const isStringUrl = typeof project.image === 'string';
   
   return (
     <motion.div
@@ -40,14 +41,24 @@ export default function ProjectGridItem({ project, index, onClick }: ProjectGrid
           />
         ) : (
           // Standard web project image
-          <Image
-            src={project.image}
-            alt={project.title}
-            fill
-            className="object-cover"
-            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-            priority={index < 3}
-          />
+          <div className="relative w-full h-full">
+            {isStringUrl ? (
+              <img
+                src={project.image as string}
+                alt={project.title}
+                className="absolute inset-0 w-full h-full object-cover"
+              />
+            ) : (
+              <Image
+                src={project.image}
+                alt={project.title}
+                fill
+                className="object-cover"
+                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                priority={index < 3}
+              />
+            )}
+          </div>
         )}
         
         {/* Featured badge */}
