@@ -134,6 +134,9 @@ export default function AdminDashboard() {
       <div className="mt-8">
         <h2 className="text-xl font-medium mb-4">Quick Actions</h2>
         <div className="flex flex-wrap gap-4">
+          <a href="/admin/personal-info" className="px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded-md">
+            Manage Profile
+          </a>
           <a href="/admin/projects/new" className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-md">
             Add New Project
           </a>
