@@ -23,12 +23,12 @@ export default function ProjectGridItem({ project, index, onClick }: ProjectGrid
       initial={projectAnimations.fadeInUp.initial}
       animate={projectAnimations.fadeInUp.animate}
       transition={{ duration: 0.5, delay: 0.1 * index }}
-      className="bg-white dark:bg-gray-800 rounded-xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 hover:-translate-y-2 cursor-pointer border border-gray-100 dark:border-gray-700 flex flex-col"
+      className="bg-white dark:bg-gray-800 rounded-xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 cursor-pointer border border-gray-200 dark:border-gray-700 flex flex-col"
       onClick={onClick}
       whileHover={{ scale: 1.02 }}
     >
       {/* Project Image */}
-      <div className={`relative w-full h-64 overflow-hidden ${isMobile ? 'py-2 bg-gray-100 dark:bg-gray-700/50' : ''}`}>
+      <div className={`relative w-full h-56 overflow-hidden ${isMobile ? 'py-2 bg-gray-100 dark:bg-gray-700/50' : ''}`}>
         <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-black/10 z-10" />
         
         {isMobile ? (
@@ -70,7 +70,7 @@ export default function ProjectGridItem({ project, index, onClick }: ProjectGrid
       </div>
       
       {/* Project Content */}
-      <div className="p-6 flex flex-col flex-grow min-h-[220px]">
+      <div className="p-5 flex flex-col flex-grow min-h-[200px]">
         <div className="flex items-center gap-2 mb-2">
           <h3 className="text-xl font-bold text-gray-900 dark:text-white">{project.title}</h3>
           {isMobile && <FaMobile className="text-blue-500 dark:text-blue-400" size={14} />}
