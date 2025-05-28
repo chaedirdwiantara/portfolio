@@ -79,7 +79,7 @@ body {
   display: none;  /* Chrome, Safari, Opera */
 }
 
-/* Fix Swiper navigation clickability - Increased z-index */
+/* Fix Swiper navigation clickability - Reduced opacity for better UI visibility */
 .mobile-phone-slider .swiper-button-next,
 .mobile-phone-slider .swiper-button-prev {
   z-index: 9999 !important;
@@ -88,14 +88,14 @@ body {
   display: flex !important;
   align-items: center !important;
   justify-content: center !important;
-  background-color: rgba(255, 255, 255, 0.9) !important;
+  background-color: rgba(255, 255, 255, 0.25) !important;
   backdrop-filter: blur(4px) !important;
   width: 40px !important;
   height: 40px !important;
   border-radius: 50% !important;
-  color: #374151 !important;
+  color: white !important;
   transition: all 0.3s ease !important;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15) !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1) !important;
   border: none !important;
   outline: none !important;
   position: absolute !important;
@@ -103,9 +103,9 @@ body {
 
 .mobile-phone-slider .swiper-button-next:hover,
 .mobile-phone-slider .swiper-button-prev:hover {
-  background-color: rgba(255, 255, 255, 1) !important;
+  background-color: rgba(255, 255, 255, 0.4) !important;
   transform: scale(1.05) !important;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2) !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15) !important;
 }
 
 .mobile-phone-slider .swiper-button-next:after,
@@ -124,7 +124,7 @@ body {
 .mobile-phone-slider .swiper-pagination-bullet {
   pointer-events: auto !important;
   cursor: pointer !important;
-  background-color: rgba(255, 255, 255, 0.6) !important;
+  background-color: rgba(255, 255, 255, 0.5) !important;
   opacity: 1 !important;
   width: 8px !important;
   height: 8px !important;
@@ -132,7 +132,7 @@ body {
 }
 
 .mobile-phone-slider .swiper-pagination-bullet-active {
-  background-color: #3B82F6 !important;
+  background-color: white !important;
   transform: scale(1.2) !important;
 }
 
