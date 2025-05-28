@@ -79,6 +79,95 @@ body {
   display: none;  /* Chrome, Safari, Opera */
 }
 
+/* Fix Swiper navigation clickability - Increased z-index */
+.mobile-phone-slider .swiper-button-next,
+.mobile-phone-slider .swiper-button-prev {
+  z-index: 9999 !important;
+  pointer-events: auto !important;
+  cursor: pointer !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  background-color: rgba(255, 255, 255, 0.9) !important;
+  backdrop-filter: blur(4px) !important;
+  width: 40px !important;
+  height: 40px !important;
+  border-radius: 50% !important;
+  color: #374151 !important;
+  transition: all 0.3s ease !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15) !important;
+  border: none !important;
+  outline: none !important;
+  position: absolute !important;
+}
+
+.mobile-phone-slider .swiper-button-next:hover,
+.mobile-phone-slider .swiper-button-prev:hover {
+  background-color: rgba(255, 255, 255, 1) !important;
+  transform: scale(1.05) !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2) !important;
+}
+
+.mobile-phone-slider .swiper-button-next:after,
+.mobile-phone-slider .swiper-button-prev:after {
+  font-size: 16px !important;
+  font-weight: bold !important;
+  color: inherit !important;
+}
+
+.mobile-phone-slider .swiper-pagination {
+  z-index: 9999 !important;
+  pointer-events: auto !important;
+  position: absolute !important;
+}
+
+.mobile-phone-slider .swiper-pagination-bullet {
+  pointer-events: auto !important;
+  cursor: pointer !important;
+  background-color: rgba(255, 255, 255, 0.6) !important;
+  opacity: 1 !important;
+  width: 8px !important;
+  height: 8px !important;
+  transition: all 0.3s ease !important;
+}
+
+.mobile-phone-slider .swiper-pagination-bullet-active {
+  background-color: #3B82F6 !important;
+  transform: scale(1.2) !important;
+}
+
+/* Ensure swiper container doesn't block clicks */
+.mobile-phone-slider .swiper {
+  position: relative !important;
+  overflow: visible !important;
+  z-index: 100 !important;
+}
+
+.mobile-phone-slider .swiper-wrapper {
+  position: relative !important;
+  z-index: 1 !important;
+}
+
+/* Make sure phone frame doesn't block navigation */
+.mobile-phone-slider {
+  position: relative !important;
+  z-index: 100 !important;
+}
+
+/* Ensure no overlays block navigation */
+.mobile-phone-slider * {
+  pointer-events: auto;
+}
+
+.mobile-phone-slider .swiper-slide {
+  pointer-events: none;
+}
+
+.mobile-phone-slider .swiper-slide img,
+.mobile-phone-slider .swiper-slide > div {
+  pointer-events: none;
+}
+
 /* Add these form input styles to improve focus state and cursor visibility */
 
 /* Improve form element focus states */

@@ -45,7 +45,7 @@ export default function PhoneFrame({
               images={images || []}
               alt={alt}
               aspectRatio=""
-              className="rounded-[16px]"
+              className="rounded-[16px] mobile-phone-slider"
               sizes={imageSize}
               priority={priority}
               autoplay={true}
@@ -67,8 +67,8 @@ export default function PhoneFrame({
               priority={priority}
             />
           )}
-          {/* Subtle overlay inside phone frame for consistency */}
-          <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent z-10"></div>
+          {/* Subtle overlay inside phone frame for consistency - dengan pointer-events-none */}
+          <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent z-5 pointer-events-none"></div>
         </div>
       </div>
       
