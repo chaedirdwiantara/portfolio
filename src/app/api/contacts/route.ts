@@ -1,9 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { createBrowserClient } from '@/app/lib/supabase/client';
+import { createServerClient } from '@/app/lib/supabase/client';
 
 export async function GET() {
   try {
-    const supabase = createBrowserClient();
+    const supabase = createServerClient();
     
     const { data, error } = await supabase
       .from('contacts')
@@ -50,7 +50,7 @@ export async function POST(request: NextRequest) {
       );
     }
     
-    const supabase = createBrowserClient();
+    const supabase = createServerClient();
     
     const { data, error } = await supabase
       .from('contacts')

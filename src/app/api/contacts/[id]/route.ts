@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { createBrowserClient } from '@/app/lib/supabase/client';
+import { createServerClient } from '@/app/lib/supabase/client';
 
 export async function PATCH(
   request: NextRequest,
@@ -17,7 +17,7 @@ export async function PATCH(
       );
     }
     
-    const supabase = createBrowserClient();
+    const supabase = createServerClient();
     
     const updateData: any = {};
     
@@ -71,7 +71,7 @@ export async function DELETE(
       );
     }
     
-    const supabase = createBrowserClient();
+    const supabase = createServerClient();
     
     const { error } = await supabase
       .from('contacts')

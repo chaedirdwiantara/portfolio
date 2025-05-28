@@ -41,6 +41,38 @@ export interface Database {
           notes?: string | null
         }
       }
+      contact_info: {
+        Row: {
+          id: number
+          created_at: string
+          title: string
+          description: string
+          email: string
+          phone: string | null
+          location: string | null
+          office_hours: Json | null
+        }
+        Insert: {
+          id?: number
+          created_at?: string
+          title: string
+          description: string
+          email: string
+          phone?: string | null
+          location?: string | null
+          office_hours?: Json | null
+        }
+        Update: {
+          id?: number
+          created_at?: string
+          title?: string
+          description?: string
+          email?: string
+          phone?: string | null
+          location?: string | null
+          office_hours?: Json | null
+        }
+      }
       projects: {
         Row: {
           id: number

@@ -1,10 +1,54 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { useState } from "react";
-import { FaEnvelope, FaPhone, FaMapMarkerAlt, FaSpinner, FaCheckCircle, FaExclamationCircle } from "react-icons/fa";
+import { useState, useEffect } from "react";
+import { FaEnvelope, FaPhone, FaMapMarkerAlt, FaSpinner, FaCheckCircle, FaExclamationCircle, FaWhatsapp, FaLinkedin, FaInstagram, FaTwitter, FaGithub, FaFacebook } from "react-icons/fa";
+
+type ContactInfo = {
+  id: number;
+  title: string;
+  description: string;
+  email: string;
+  phone: string | null;
+  location: string | null;
+  office_hours: any;
+};
+
+type SocialLink = {
+  id: number;
+  platform: string;
+  url: string;
+};
+
+const getSocialIcon = (platform: string) => {
+  switch (platform.toLowerCase()) {
+    case 'whatsapp': return FaWhatsapp;
+    case 'linkedin': return FaLinkedin;
+    case 'instagram': return FaInstagram;
+    case 'twitter': return FaTwitter;
+    case 'github': return FaGithub;
+    case 'facebook': return FaFacebook;
+    default: return FaEnvelope;
+  }
+};
+
+const getSocialColor = (platform: string) => {
+  switch (platform.toLowerCase()) {
+    case 'whatsapp': return 'text-green-600 dark:text-green-400';
+    case 'linkedin': return 'text-blue-600 dark:text-blue-400';
+    case 'instagram': return 'text-pink-600 dark:text-pink-400';
+    case 'twitter': return 'text-blue-400 dark:text-blue-300';
+    case 'github': return 'text-gray-800 dark:text-gray-200';
+    case 'facebook': return 'text-blue-700 dark:text-blue-400';
+    default: return 'text-teal-600 dark:text-teal-400';
+  }
+};
 
 export default function ContactSection() {
+  const [contactInfo, setContactInfo] = useState<ContactInfo | null>(null);
+  const [socialLinks, setSocialLinks] = useState<SocialLink[]>([]);
+  const [loading, setLoading] = useState(true);
+  
   const [formState, setFormState] = useState({
     name: "",
     email: "",
@@ -16,6 +60,37 @@ export default function ContactSection() {
     type: 'success' | 'error' | null;
     message: string;
   }>({ type: null, message: '' });
+
+  useEffect(() => {
+    fetchContactInfo();
+    fetchSocialLinks();
+  }, []);
+
+  const fetchContactInfo = async () => {
+    try {
+      const response = await fetch('/api/contact-info');
+      if (response.ok) {
+        const data = await response.json();
+        setContactInfo(data);
+      }
+    } catch (error) {
+      console.error('Error fetching contact info:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const fetchSocialLinks = async () => {
+    try {
+      const response = await fetch('/api/social-links');
+      if (response.ok) {
+        const data = await response.json();
+        setSocialLinks(data);
+      }
+    } catch (error) {
+      console.error('Error fetching social links:', error);
+    }
+  };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setFormState({
@@ -68,6 +143,10 @@ export default function ContactSection() {
     }
   };
 
+  // Default values while loading or if no data
+  const displayTitle = contactInfo?.title || 'Get In Touch';
+  const displayDescription = contactInfo?.description || 'Have a question or want to work together? Feel free to reach out.';
+
   return (
     <section id="contact" className="py-20 bg-teal-50 dark:bg-teal-950">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
@@ -79,7 +158,7 @@ export default function ContactSection() {
             transition={{ duration: 0.5 }}
             className="text-3xl font-bold text-gray-900 dark:text-white mb-4"
           >
-            Get In Touch
+            {displayTitle}
           </motion.h2>
           <motion.div 
             initial={{ opacity: 0 }}
@@ -95,7 +174,7 @@ export default function ContactSection() {
             transition={{ duration: 0.5, delay: 0.3 }}
             className="text-lg text-gray-600 dark:text-gray-300"
           >
-            Have a question or want to work together? Feel free to reach out.
+            {displayDescription}
           </motion.p>
         </div>
 
@@ -205,71 +284,130 @@ export default function ContactSection() {
               transition={{ duration: 0.6, delay: 0.2 }}
               className="space-y-8"
             >
+              {/* Contact Details */}
               <div className="bg-white dark:bg-gray-800 p-8 rounded-xl shadow-md">
                 <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-6">
                   Contact Information
                 </h3>
-                <div className="space-y-6">
-                  <div className="flex items-start">
-                    <div className="flex-shrink-0 mt-1">
-                      <span className="flex items-center justify-center w-10 h-10 rounded-full bg-teal-100 dark:bg-teal-900 text-teal-600 dark:text-teal-300">
-                        <FaEnvelope className="w-5 h-5" />
-                      </span>
-                    </div>
-                    <div className="ml-4">
-                      <p className="text-sm font-medium text-gray-500 dark:text-gray-400">Email</p>
-                      <a href="mailto:hello@example.com" className="text-base text-gray-900 dark:text-white hover:text-teal-600 dark:hover:text-teal-400">
-                        hello@example.com
-                      </a>
-                    </div>
+                
+                {loading ? (
+                  <div className="flex items-center justify-center py-8">
+                    <FaSpinner className="w-6 h-6 animate-spin text-teal-600" />
                   </div>
-                  
-                  <div className="flex items-start">
-                    <div className="flex-shrink-0 mt-1">
-                      <span className="flex items-center justify-center w-10 h-10 rounded-full bg-teal-100 dark:bg-teal-900 text-teal-600 dark:text-teal-300">
-                        <FaPhone className="w-5 h-5" />
-                      </span>
-                    </div>
-                    <div className="ml-4">
-                      <p className="text-sm font-medium text-gray-500 dark:text-gray-400">Phone</p>
-                      <a href="tel:+1234567890" className="text-base text-gray-900 dark:text-white hover:text-teal-600 dark:hover:text-teal-400">
-                        +1 (234) 567-890
-                      </a>
-                    </div>
+                ) : (
+                  <div className="space-y-6">
+                    {contactInfo?.email && (
+                      <div className="flex items-start">
+                        <div className="flex-shrink-0 mt-1">
+                          <span className="flex items-center justify-center w-10 h-10 rounded-full bg-teal-100 dark:bg-teal-900 text-teal-600 dark:text-teal-300">
+                            <FaEnvelope className="w-5 h-5" />
+                          </span>
+                        </div>
+                        <div className="ml-4">
+                          <p className="text-sm font-medium text-gray-500 dark:text-gray-400">Email</p>
+                          <a 
+                            href={`mailto:${contactInfo.email}`} 
+                            className="text-base text-gray-900 dark:text-white hover:text-teal-600 dark:hover:text-teal-400 transition-colors"
+                          >
+                            {contactInfo.email}
+                          </a>
+                        </div>
+                      </div>
+                    )}
+                    
+                    {contactInfo?.phone && (
+                      <div className="flex items-start">
+                        <div className="flex-shrink-0 mt-1">
+                          <span className="flex items-center justify-center w-10 h-10 rounded-full bg-teal-100 dark:bg-teal-900 text-teal-600 dark:text-teal-300">
+                            <FaPhone className="w-5 h-5" />
+                          </span>
+                        </div>
+                        <div className="ml-4">
+                          <p className="text-sm font-medium text-gray-500 dark:text-gray-400">Phone</p>
+                          <a 
+                            href={`tel:${contactInfo.phone.replace(/\s/g, '')}`} 
+                            className="text-base text-gray-900 dark:text-white hover:text-teal-600 dark:hover:text-teal-400 transition-colors"
+                          >
+                            {contactInfo.phone}
+                          </a>
+                        </div>
+                      </div>
+                    )}
+                    
+                    {contactInfo?.location && (
+                      <div className="flex items-start">
+                        <div className="flex-shrink-0 mt-1">
+                          <span className="flex items-center justify-center w-10 h-10 rounded-full bg-teal-100 dark:bg-teal-900 text-teal-600 dark:text-teal-300">
+                            <FaMapMarkerAlt className="w-5 h-5" />
+                          </span>
+                        </div>
+                        <div className="ml-4">
+                          <p className="text-sm font-medium text-gray-500 dark:text-gray-400">Location</p>
+                          <p className="text-base text-gray-900 dark:text-white">
+                            {contactInfo.location}
+                          </p>
+                        </div>
+                      </div>
+                    )}
                   </div>
-                  
-                  <div className="flex items-start">
-                    <div className="flex-shrink-0 mt-1">
-                      <span className="flex items-center justify-center w-10 h-10 rounded-full bg-teal-100 dark:bg-teal-900 text-teal-600 dark:text-teal-300">
-                        <FaMapMarkerAlt className="w-5 h-5" />
-                      </span>
-                    </div>
-                    <div className="ml-4">
-                      <p className="text-sm font-medium text-gray-500 dark:text-gray-400">Location</p>
-                      <p className="text-base text-gray-900 dark:text-white">
-                        New York City, NY
-                      </p>
-                    </div>
+                )}
+              </div>
+
+              {/* Social Media Links */}
+              {socialLinks.length > 0 && (
+                <div className="bg-white dark:bg-gray-800 p-8 rounded-xl shadow-md">
+                  <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-6">
+                    Connect With Me
+                  </h3>
+                  <div className="grid grid-cols-2 gap-4">
+                    {socialLinks.map((social) => {
+                      const IconComponent = getSocialIcon(social.platform);
+                      const colorClass = getSocialColor(social.platform);
+                      
+                      return (
+                        <a
+                          key={social.id}
+                          href={social.url}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="flex items-center p-3 rounded-lg border border-gray-200 dark:border-gray-600 hover:border-teal-300 dark:hover:border-teal-600 hover:bg-teal-50 dark:hover:bg-teal-900/20 transition-all duration-200 group"
+                        >
+                          <IconComponent className={`w-5 h-5 ${colorClass} group-hover:scale-110 transition-transform`} />
+                          <span className="ml-3 text-sm font-medium text-gray-700 dark:text-gray-300 group-hover:text-teal-600 dark:group-hover:text-teal-400 transition-colors capitalize">
+                            {social.platform}
+                          </span>
+                        </a>
+                      );
+                    })}
                   </div>
                 </div>
-              </div>
+              )}
               
-              <div className="bg-white dark:bg-gray-800 p-8 rounded-xl shadow-md">
-                <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-4">
-                  Office Hours
-                </h3>
-                <div className="space-y-2">
-                  <p className="text-gray-600 dark:text-gray-300">
-                    <span className="font-medium">Monday - Friday:</span> 9:00 AM - 6:00 PM
-                  </p>
-                  <p className="text-gray-600 dark:text-gray-300">
-                    <span className="font-medium">Saturday:</span> 10:00 AM - 4:00 PM
-                  </p>
-                  <p className="text-gray-600 dark:text-gray-300">
-                    <span className="font-medium">Sunday:</span> Closed
-                  </p>
+              {/* Office Hours */}
+              {contactInfo?.office_hours && (
+                <div className="bg-white dark:bg-gray-800 p-8 rounded-xl shadow-md">
+                  <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-4">
+                    Office Hours
+                  </h3>
+                  <div className="space-y-2">
+                    {contactInfo.office_hours.monday_friday && (
+                      <p className="text-gray-600 dark:text-gray-300">
+                        <span className="font-medium">Monday - Friday:</span> {contactInfo.office_hours.monday_friday}
+                      </p>
+                    )}
+                    {contactInfo.office_hours.saturday && (
+                      <p className="text-gray-600 dark:text-gray-300">
+                        <span className="font-medium">Saturday:</span> {contactInfo.office_hours.saturday}
+                      </p>
+                    )}
+                    {contactInfo.office_hours.sunday && (
+                      <p className="text-gray-600 dark:text-gray-300">
+                        <span className="font-medium">Sunday:</span> {contactInfo.office_hours.sunday}
+                      </p>
+                    )}
+                  </div>
                 </div>
-              </div>
+              )}
             </motion.div>
           </div>
         </div>
