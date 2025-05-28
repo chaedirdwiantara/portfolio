@@ -8,7 +8,8 @@ export default function AdminDashboard() {
   const [stats, setStats] = useState({
     projects: 0,
     skills: 0,
-    experiences: 0
+    experiences: 0,
+    contacts: 0
   });
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -72,10 +73,24 @@ export default function AdminDashboard() {
           console.error("Experiences count error:", err);
         }
         
+        // Get contacts count
+        let contactsCount = 0;
+        try {
+          const { count, error } = await supabase
+            .from('contacts')
+            .select('*', { count: 'exact', head: true });
+            
+          if (error) throw error;
+          contactsCount = count || 0;
+        } catch (err) {
+          console.error("Contacts count error:", err);
+        }
+        
         setStats({
           projects: projectsCount,
           skills: skillsCount,
-          experiences: experiencesCount
+          experiences: experiencesCount,
+          contacts: contactsCount
         });
       } catch (error) {
         console.error("Failed to fetch stats:", error);
@@ -114,7 +129,7 @@ export default function AdminDashboard() {
         </div>
       )}
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-sm border border-gray-100 dark:border-gray-700">
           <h2 className="text-lg font-medium mb-2">Projects</h2>
           <p className="text-3xl font-bold text-blue-600 dark:text-blue-400">{stats.projects}</p>
@@ -129,6 +144,11 @@ export default function AdminDashboard() {
           <h2 className="text-lg font-medium mb-2">Experiences</h2>
           <p className="text-3xl font-bold text-blue-600 dark:text-blue-400">{stats.experiences}</p>
         </div>
+        
+        <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-sm border border-gray-100 dark:border-gray-700">
+          <h2 className="text-lg font-medium mb-2">Contacts</h2>
+          <p className="text-3xl font-bold text-blue-600 dark:text-blue-400">{stats.contacts}</p>
+        </div>
       </div>
       
       <div className="mt-8">
@@ -136,6 +156,9 @@ export default function AdminDashboard() {
         <div className="flex flex-wrap gap-4">
           <a href="/admin/personal-info" className="px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded-md">
             Manage Profile
+          </a>
+          <a href="/admin/contacts" className="px-4 py-2 bg-purple-600 hover:bg-purple-700 text-white rounded-md">
+            View Messages
           </a>
           <a href="/admin/projects/new" className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-md">
             Add New Project
