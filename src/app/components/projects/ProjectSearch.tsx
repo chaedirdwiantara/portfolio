@@ -113,7 +113,7 @@ export default function ProjectSearch({
       {/* Search input - centered and proper width */}
       <div className="flex justify-center mb-5">
         <div className="w-full max-w-md relative">
-          <div className="absolute inset-y-0 left-3 flex items-center pointer-events-none text-gray-400 dark:text-gray-500">
+          <div className="absolute inset-y-0 left-3 flex items-center pointer-events-none text-gray-400 dark:text-gray-500 z-10">
             <FaSearch size={16} />
           </div>
           <input
@@ -121,7 +121,8 @@ export default function ProjectSearch({
             placeholder="Search projects..."
             value={searchQuery}
             onChange={(e) => onSearchChange(e.target.value)}
-            className="w-full px-4 py-3 pl-10 rounded-full border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 shadow-sm"
+            className="w-full px-4 py-3 rounded-full border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-200 placeholder:text-gray-400 dark:placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 shadow-sm"
+            style={{ paddingLeft: '3rem' }}
           />
         </div>
       </div>
