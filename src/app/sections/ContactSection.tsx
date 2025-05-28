@@ -3,6 +3,7 @@
 import { motion } from "framer-motion";
 import { useState, useEffect } from "react";
 import { FaEnvelope, FaPhone, FaMapMarkerAlt, FaSpinner, FaCheckCircle, FaExclamationCircle, FaWhatsapp, FaLinkedin, FaInstagram, FaTwitter, FaGithub, FaFacebook } from "react-icons/fa";
+import emailjs from '@emailjs/browser';
 
 type ContactInfo = {
   id: number;
@@ -104,12 +105,41 @@ export default function ContactSection() {
     }
   };
 
+  const sendEmailNotification = async (formData: { name: string; email: string; message: string }) => {
+    try {
+      const templateParams = {
+        from_name: formData.name,
+        from_email: formData.email,
+        message: formData.message,
+        submission_date: new Date().toLocaleString('en-US', {
+          year: 'numeric',
+          month: 'long',
+          day: 'numeric',
+          hour: '2-digit',
+          minute: '2-digit',
+          timeZoneName: 'short'
+        })
+      };
+
+      await emailjs.send(
+        process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID!,
+        process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID!,
+        templateParams,
+        process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY!
+      );
+    } catch (error) {
+      console.error('Failed to send email notification:', error);
+      // Don't throw error - we don't want email failure to break the form submission
+    }
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
     setSubmitStatus({ type: null, message: '' });
     
     try {
+      // Save to database (existing functionality)
       const response = await fetch('/api/contacts', {
         method: 'POST',
         headers: {
@@ -121,6 +151,9 @@ export default function ContactSection() {
       const data = await response.json();
       
       if (response.ok) {
+        // Send email notification (new functionality)
+        await sendEmailNotification(formState);
+        
         setSubmitStatus({
           type: 'success',
           message: 'Thank you! Your message has been sent successfully. I\'ll get back to you soon.'
