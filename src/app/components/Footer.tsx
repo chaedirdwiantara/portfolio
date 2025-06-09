@@ -1,7 +1,7 @@
 "use client";
 
 import Link from 'next/link';
-import { FaGithub, FaLinkedin, FaTwitter } from 'react-icons/fa';
+import { FaGithub, FaLinkedin } from 'react-icons/fa';
 import { socialLinks, personalInfo } from '../data/portfolio-data';
 
 export default function Footer() {
@@ -67,15 +67,6 @@ export default function Footer() {
                 aria-label="LinkedIn"
               >
                 <FaLinkedin size={20} />
-              </a>
-              <a 
-                href={socialLinks.twitter} 
-                target="_blank" 
-                rel="noopener noreferrer"
-                className="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white"
-                aria-label="Twitter"
-              >
-                <FaTwitter size={20} />
               </a>
             </div>
             <div className="text-sm text-gray-600 dark:text-gray-400">
