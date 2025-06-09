@@ -6,7 +6,7 @@ import { createBrowserClient } from '../../lib/supabase/client';
 import ProjectDetail from './ProjectDetail';
 import ProjectSearch from './ProjectSearch';
 import ProjectGridItem from './ProjectGridItem';
-import ProjectSkeletonLoader from './ProjectSkeletonLoader';
+import { ProjectsSkeleton } from '../common/LoadingSkeleton';
 import LoadMoreButton from '../common/LoadMoreButton';
 import { Project } from '../../types/project';
 import { usePathname } from 'next/navigation';
@@ -194,7 +194,7 @@ export default function ProjectsPageContent() {
 
             {/* Show skeleton loader while loading */}
             {isLoading ? (
-              <ProjectSkeletonLoader />
+              <ProjectsSkeleton />
             ) : (
               <>
                 {/* Projects grid */}

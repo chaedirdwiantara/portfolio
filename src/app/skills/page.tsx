@@ -2,6 +2,8 @@
 
 import { motion } from "framer-motion";
 import { useSkills } from "@/app/lib/hooks/useSkills";
+import { SkillsSkeleton } from "../components/common/LoadingSkeleton";
+import ErrorState from "../components/common/ErrorState";
 
 export default function SkillsPage() {
   const { groupedSkills, loading, error } = useSkills();
@@ -32,8 +34,19 @@ export default function SkillsPage() {
     return (
       <div className="min-h-screen bg-gray-50 dark:bg-gray-900 py-20">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="max-w-4xl mx-auto text-center">
-            <div className="text-lg text-gray-600 dark:text-gray-300">Loading skills...</div>
+          <div className="max-w-4xl mx-auto">
+            {/* Header Skeleton */}
+            <div className="text-center mb-16">
+              <div className="h-10 bg-gray-200 dark:bg-gray-700 rounded-md animate-pulse w-1/2 mx-auto mb-4"></div>
+              <div className="w-20 h-1 bg-gray-200 dark:bg-gray-700 mx-auto mb-6 animate-pulse"></div>
+              <div className="space-y-2 max-w-2xl mx-auto">
+                <div className="h-4 bg-gray-200 dark:bg-gray-700 rounded animate-pulse"></div>
+                <div className="h-4 bg-gray-200 dark:bg-gray-700 rounded animate-pulse w-3/4 mx-auto"></div>
+              </div>
+            </div>
+
+            {/* Skills Skeleton */}
+            <SkillsSkeleton />
           </div>
         </div>
       </div>
@@ -42,13 +55,11 @@ export default function SkillsPage() {
 
   if (error) {
     return (
-      <div className="min-h-screen bg-gray-50 dark:bg-gray-900 py-20">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="max-w-4xl mx-auto text-center">
-            <div className="text-lg text-red-600 dark:text-red-400">Error loading skills: {error}</div>
-          </div>
-        </div>
-      </div>
+      <ErrorState 
+        title="Failed to Load Skills"
+        message={`Error loading skills: ${error}`}
+        type="error"
+      />
     );
   }
 

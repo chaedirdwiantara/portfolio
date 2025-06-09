@@ -2,6 +2,8 @@
 
 import { useState, useEffect } from 'react';
 import { createBrowserClient } from '@/app/lib/supabase/client';
+import { AboutSkeleton } from '../components/common/LoadingSkeleton';
+import ErrorState from '../components/common/ErrorState';
 
 type PersonalInfo = {
   id: number;
@@ -49,45 +51,27 @@ export default function AboutPage() {
   };
 
   if (loading) {
-    return (
-      <div className="min-h-screen flex items-center justify-center bg-slate-50 dark:bg-slate-900">
-        <div className="flex flex-col items-center space-y-4">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
-          <p className="text-slate-600 dark:text-slate-400 font-medium">Loading...</p>
-        </div>
-      </div>
-    );
+    return <AboutSkeleton />;
   }
 
   if (error) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-slate-50 dark:bg-slate-900">
-        <div className="text-center max-w-md mx-auto px-6">
-          <div className="w-16 h-16 mx-auto mb-6 bg-red-100 dark:bg-red-900/20 rounded-full flex items-center justify-center">
-            <svg className="w-8 h-8 text-red-600 dark:text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L3.732 16.5c-.77.833.192 2.5 1.732 2.5z" />
-            </svg>
-          </div>
-          <h1 className="text-2xl font-bold text-slate-900 dark:text-white mb-4">Something went wrong</h1>
-          <p className="text-slate-600 dark:text-slate-400">{error}</p>
-        </div>
-      </div>
+      <ErrorState 
+        title="Failed to Load"
+        message={error}
+        onRetry={fetchPersonalInfo}
+        type="error"
+      />
     );
   }
 
   if (!personalInfo) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-slate-50 dark:bg-slate-900">
-        <div className="text-center max-w-md mx-auto px-6">
-          <div className="w-16 h-16 mx-auto mb-6 bg-slate-100 dark:bg-slate-800 rounded-full flex items-center justify-center">
-            <svg className="w-8 h-8 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-            </svg>
-          </div>
-          <h1 className="text-2xl font-bold text-slate-900 dark:text-white mb-4">About</h1>
-          <p className="text-slate-600 dark:text-slate-400">No personal information available yet.</p>
-        </div>
-      </div>
+      <ErrorState 
+        title="About"
+        message="No personal information available yet."
+        type="not-found"
+      />
     );
   }
 
