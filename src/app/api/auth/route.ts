@@ -3,13 +3,20 @@ import { cookies } from 'next/headers';
 import { NextResponse } from 'next/server';
 import { Database } from '@/app/lib/supabase/database.types';
 
-// Create a single supabase client for interacting with your database
-const supabase = createClient<Database>(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
-);
-
 export async function POST(request: Request) {
+  // Create supabase client dynamically inside the function
+  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+  const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+  
+  if (!supabaseUrl || !supabaseKey) {
+    return NextResponse.json(
+      { error: 'Supabase configuration is missing' }, 
+      { status: 500 }
+    );
+  }
+
+  const supabase = createClient<Database>(supabaseUrl, supabaseKey);
+
   const requestUrl = new URL(request.url);
   const formData = await request.formData();
   const email = String(formData.get('email'));
