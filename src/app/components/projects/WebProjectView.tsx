@@ -93,7 +93,7 @@ const WebProjectView = ({ project }: WebProjectViewProps) => {
             <ActionButton 
               href={project.liveUrl}
               icon={<FaGlobe size={16} />}
-              label="View Live Demo"
+              label="Live Demo"
               className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-700 hover:to-blue-600 text-white transition-all duration-300 font-medium shadow-md hover:shadow-lg"
             />
           )}
@@ -102,7 +102,7 @@ const WebProjectView = ({ project }: WebProjectViewProps) => {
             <ActionButton 
               href={project.sourceUrl}
               icon={<FaGithub size={16} />}
-              label="View Source Code"
+              label="Source Code"
               className="inline-flex items-center gap-2 px-6 py-3 rounded-full border-2 border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-200 hover:border-blue-400 dark:hover:border-blue-400 hover:text-blue-600 dark:hover:text-blue-400 transition-all duration-300 font-medium"
             />
           )}

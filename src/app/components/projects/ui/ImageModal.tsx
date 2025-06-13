@@ -13,6 +13,9 @@ interface ImageModalProps {
 const ImageModal = ({ isOpen, onClose, images, currentIndex, alt }: ImageModalProps) => {
   const [activeIndex, setActiveIndex] = useState(currentIndex);
   const [isZoomed, setIsZoomed] = useState(false);
+  const [dragPosition, setDragPosition] = useState({ x: 0, y: 0 });
+  const [isDragging, setIsDragging] = useState(false);
+  const [dragStart, setDragStart] = useState({ x: 0, y: 0 });
 
   useEffect(() => {
     setActiveIndex(currentIndex);
@@ -60,11 +63,44 @@ const ImageModal = ({ isOpen, onClose, images, currentIndex, alt }: ImageModalPr
   const handlePrevious = () => {
     setActiveIndex((prev) => (prev > 0 ? prev - 1 : images.length - 1));
     setIsZoomed(false);
+    setDragPosition({ x: 0, y: 0 });
   };
 
   const handleNext = () => {
     setActiveIndex((prev) => (prev < images.length - 1 ? prev + 1 : 0));
     setIsZoomed(false);
+    setDragPosition({ x: 0, y: 0 });
+  };
+
+  const handleMouseDown = (e: React.MouseEvent) => {
+    if (isZoomed) {
+      setIsDragging(true);
+      setDragStart({
+        x: e.clientX - dragPosition.x,
+        y: e.clientY - dragPosition.y
+      });
+    }
+  };
+
+  const handleMouseMove = (e: React.MouseEvent) => {
+    if (isDragging && isZoomed) {
+      setDragPosition({
+        x: e.clientX - dragStart.x,
+        y: e.clientY - dragStart.y
+      });
+    }
+  };
+
+  const handleMouseUp = () => {
+    setIsDragging(false);
+  };
+
+  const handleZoomToggle = () => {
+    setIsZoomed(!isZoomed);
+    if (isZoomed) {
+      // Reset position when zooming out
+      setDragPosition({ x: 0, y: 0 });
+    }
   };
 
   const handleKeyDown = (e: KeyboardEvent) => {
@@ -99,9 +135,9 @@ const ImageModal = ({ isOpen, onClose, images, currentIndex, alt }: ImageModalPr
             e.preventDefault();
             e.stopPropagation();
             console.log('Zoom button clicked, current zoom:', isZoomed);
-            setIsZoomed(!isZoomed);
+            handleZoomToggle();
           }}
-          className="p-3 rounded-full bg-black/70 text-white hover:bg-black/90 transition-all duration-200 cursor-pointer"
+          className="p-3 rounded-full bg-black/40 backdrop-blur-md border border-white/20 text-white hover:bg-black/60 hover:border-white/30 transition-all duration-200 cursor-pointer shadow-lg"
           style={{ pointerEvents: 'auto' }}
           title={isZoomed ? 'Zoom Out' : 'Zoom In'}
         >
@@ -116,7 +152,7 @@ const ImageModal = ({ isOpen, onClose, images, currentIndex, alt }: ImageModalPr
             console.log('Close button clicked');
             onClose();
           }}
-          className="p-3 rounded-full bg-black/70 text-white hover:bg-black/90 transition-all duration-200 cursor-pointer"
+          className="p-3 rounded-full bg-black/40 backdrop-blur-md border border-white/20 text-white hover:bg-black/60 hover:border-white/30 transition-all duration-200 cursor-pointer shadow-lg"
           style={{ pointerEvents: 'auto' }}
           title="Close"
         >
@@ -134,8 +170,9 @@ const ImageModal = ({ isOpen, onClose, images, currentIndex, alt }: ImageModalPr
               console.log('Previous button clicked');
               handlePrevious();
             }}
-            className="absolute left-4 top-1/2 -translate-y-1/2 z-[100] p-3 rounded-full bg-black/70 text-white hover:bg-black/90 transition-all duration-200 cursor-pointer"
+            className="absolute left-4 top-1/2 -translate-y-1/2 z-[100] p-3 rounded-full bg-black/40 backdrop-blur-md border border-white/20 text-white hover:bg-black/60 hover:border-white/30 transition-all duration-200 cursor-pointer shadow-lg"
             style={{ pointerEvents: 'auto' }}
+            title="Previous Image"
           >
             <FaChevronLeft size={20} />
           </button>
@@ -146,8 +183,9 @@ const ImageModal = ({ isOpen, onClose, images, currentIndex, alt }: ImageModalPr
               console.log('Next button clicked');
               handleNext();
             }}
-            className="absolute right-4 top-1/2 -translate-y-1/2 z-[100] p-3 rounded-full bg-black/70 text-white hover:bg-black/90 transition-all duration-200 cursor-pointer"
+            className="absolute right-4 top-1/2 -translate-y-1/2 z-[100] p-3 rounded-full bg-black/40 backdrop-blur-md border border-white/20 text-white hover:bg-black/60 hover:border-white/30 transition-all duration-200 cursor-pointer shadow-lg"
             style={{ pointerEvents: 'auto' }}
+            title="Next Image"
           >
             <FaChevronRight size={20} />
           </button>
@@ -157,12 +195,23 @@ const ImageModal = ({ isOpen, onClose, images, currentIndex, alt }: ImageModalPr
       {/* Image container */}
       <div 
         className={`relative max-w-[95vw] max-h-[95vh] transition-all duration-300 ${
-          isZoomed ? 'scale-150 cursor-zoom-out' : 'cursor-zoom-in'
-        }`}
+          isZoomed ? 'scale-150 cursor-grab' : 'cursor-zoom-in'
+        } ${isDragging ? 'cursor-grabbing' : ''}`}
+        style={{
+          transform: isZoomed 
+            ? `scale(1.5) translate(${dragPosition.x / 1.5}px, ${dragPosition.y / 1.5}px)` 
+            : 'scale(1)'
+        }}
         onClick={(e) => {
           e.stopPropagation();
-          setIsZoomed(!isZoomed);
+          if (!isDragging) {
+            handleZoomToggle();
+          }
         }}
+        onMouseDown={handleMouseDown}
+        onMouseMove={handleMouseMove}
+        onMouseUp={handleMouseUp}
+        onMouseLeave={handleMouseUp}
       >
         {isStringUrl ? (
           <img
@@ -185,7 +234,7 @@ const ImageModal = ({ isOpen, onClose, images, currentIndex, alt }: ImageModalPr
 
       {/* Image counter */}
       {images.length > 1 && (
-        <div className="absolute bottom-4 left-1/2 -translate-x-1/2 px-4 py-2 bg-black/50 text-white rounded-full text-sm">
+        <div className="absolute bottom-4 left-1/2 -translate-x-1/2 px-4 py-2 bg-black/40 backdrop-blur-md border border-white/20 text-white rounded-full text-sm shadow-lg">
           {activeIndex + 1} / {images.length}
         </div>
       )}
