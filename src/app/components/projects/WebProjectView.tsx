@@ -5,12 +5,16 @@ import { Project } from '../../types/project';
 import { TechBadges } from './ui/ProjectBadges';
 import ActionButton from './ui/ActionButton';
 import ImageSlider from './ui/ImageSlider';
+import ImageModal from './ui/ImageModal';
 
 interface WebProjectViewProps {
   project: Project;
 }
 
 const WebProjectView = ({ project }: WebProjectViewProps) => {
+  const [isModalOpen, setIsModalOpen] = React.useState(false);
+  const [currentImageIndex, setCurrentImageIndex] = React.useState(0);
+  
   const isStringUrl = typeof project.image === 'string';
   const hasMultipleImages = project.images_urls && project.images_urls.length > 0;
   
@@ -18,20 +22,27 @@ const WebProjectView = ({ project }: WebProjectViewProps) => {
   const sliderImages = hasMultipleImages
     ? project.images_urls || []
     : [project.image];
-  
+
+  const handleImageClick = (index: number = 0) => {
+    setCurrentImageIndex(index);
+    setIsModalOpen(true);
+  };
+
   return (
     <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
       {/* Web project preview */}
       <div className="relative overflow-hidden bg-gray-100 dark:bg-gray-900/60 md:col-span-2 rounded-xl shadow-md">
         {hasMultipleImages ? (
-          <ImageSlider 
-            images={sliderImages} 
-            alt={project.title}
-            priority={true}
-            sizes="(max-width: 768px) 100vw, 66vw"
-          />
+          <div onClick={() => handleImageClick(0)} className="cursor-pointer">
+            <ImageSlider 
+              images={sliderImages} 
+              alt={project.title}
+              priority={true}
+              sizes="(max-width: 768px) 100vw, 66vw"
+            />
+          </div>
         ) : (
-          <div className="w-full h-full overflow-hidden">
+          <div className="w-full h-full overflow-hidden cursor-pointer" onClick={() => handleImageClick(0)}>
             {isStringUrl ? (
               <img
                 src={project.image as string}
@@ -97,6 +108,15 @@ const WebProjectView = ({ project }: WebProjectViewProps) => {
           )}
         </div>
       </div>
+
+      {/* Image Modal */}
+      <ImageModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        images={sliderImages}
+        currentIndex={currentImageIndex}
+        alt={project.title}
+      />
     </div>
   );
 };
