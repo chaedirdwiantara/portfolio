@@ -31,19 +31,19 @@ const WebProjectView = ({ project }: WebProjectViewProps) => {
             sizes="(max-width: 768px) 100vw, 66vw"
           />
         ) : (
-          <div className="w-full aspect-video overflow-hidden">
+          <div className="w-full h-full overflow-hidden">
             {isStringUrl ? (
               <img
                 src={project.image as string}
                 alt={project.title}
-                className="w-full h-full object-cover"
+                className="w-full h-full object-contain block"
               />
             ) : (
               <Image
                 src={project.image}
                 alt={project.title}
                 fill
-                className="object-cover"
+                className="object-contain"
                 sizes="(max-width: 768px) 100vw, 66vw"
                 priority
               />
