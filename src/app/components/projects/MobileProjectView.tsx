@@ -4,28 +4,44 @@ import PhoneFrame from './ui/PhoneFrame';
 import { Project } from '../../types/project';
 import { TechBadges, PlatformBadges } from './ui/ProjectBadges';
 import ActionButton from './ui/ActionButton';
+import ImageModal from './ui/ImageModal';
 
 interface MobileProjectViewProps {
   project: Project;
 }
 
 const MobileProjectView = ({ project }: MobileProjectViewProps) => {
+  const [isModalOpen, setIsModalOpen] = React.useState(false);
+  const [currentImageIndex, setCurrentImageIndex] = React.useState(0);
+  
   const hasMultipleImages = project.images_urls && project.images_urls.length > 0;
   
+  // Prepare images array for the modal
+  const modalImages = hasMultipleImages
+    ? project.images_urls || []
+    : [project.image];
+
+  const handleImageClick = (index: number = 0) => {
+    setCurrentImageIndex(index);
+    setIsModalOpen(true);
+  };
+
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8 min-h-[560px]">
       {/* Mobile app preview */}
       <div className="flex justify-center items-center py-8 bg-gray-100 dark:bg-gray-900/60 min-h-[460px]">
-        <PhoneFrame 
-          image={project.image}
-          images={hasMultipleImages ? project.images_urls : undefined}
-          alt={project.title}
-          platforms={project.platforms}
-          priority={true}
-          frameSize={{ width: '220px', height: '460px' }}
-          imageSize="(max-width: 768px) 80vw, 220px"
-          showPlatformBadges={false}
-        />
+        <div onClick={() => handleImageClick(0)} className="cursor-pointer">
+          <PhoneFrame 
+            image={project.image}
+            images={hasMultipleImages ? project.images_urls : undefined}
+            alt={project.title}
+            platforms={project.platforms}
+            priority={true}
+            frameSize={{ width: '220px', height: '460px' }}
+            imageSize="(max-width: 768px) 80vw, 220px"
+            showPlatformBadges={false}
+          />
+        </div>
       </div>
       
       {/* Project info */}
@@ -76,6 +92,15 @@ const MobileProjectView = ({ project }: MobileProjectViewProps) => {
           )}
         </div>
       </div>
+
+      {/* Image Modal */}
+      <ImageModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        images={modalImages}
+        currentIndex={currentImageIndex}
+        alt={project.title}
+      />
     </div>
   );
 };
