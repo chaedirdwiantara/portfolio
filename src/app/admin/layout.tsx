@@ -119,9 +119,6 @@ export default function AdminLayout({
           <a href="/admin/contact-info" className="block p-2 hover:bg-gray-200 dark:hover:bg-gray-700 rounded">
             Contact Info
           </a>
-          <a href="/admin/social-links" className="block p-2 hover:bg-gray-200 dark:hover:bg-gray-700 rounded">
-            Social Links
-          </a>
         </nav>
         
         <div className="mt-8 pt-4 border-t">
