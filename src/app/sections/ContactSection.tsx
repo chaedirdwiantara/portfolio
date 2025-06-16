@@ -181,7 +181,7 @@ export default function ContactSection() {
   const displayDescription = contactInfo?.description || 'Have a question or want to work together? Feel free to reach out.';
 
   return (
-    <section id="contact" className="py-20 bg-teal-50 dark:bg-teal-950">
+    <section id="contact" className="py-12 bg-teal-50 dark:bg-teal-950">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="max-w-3xl mx-auto text-center mb-16">
           <motion.h2 

@@ -78,7 +78,7 @@ export default function AboutPage() {
   return (
     <div className="min-h-screen bg-slate-50 dark:bg-slate-900">
       {/* Main Content Section - Full Height */}
-      <div className="min-h-screen flex items-center justify-center py-4 lg:py-8 pt-12 lg:pt-16">
+      <div className="min-h-screen flex items-center justify-center py-4 lg:py-8 pt-24 lg:pt-16">
         <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="bg-white dark:bg-slate-800 rounded-3xl shadow-2xl overflow-hidden border border-slate-200 dark:border-slate-700 min-h-[85vh] flex flex-col">
             
