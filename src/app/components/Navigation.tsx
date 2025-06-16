@@ -39,7 +39,7 @@ export default function Navigation() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.5 }}
-            className="flex-shrink-0"
+            className="flex-shrink-0 hidden md:block"
           >
             <Link href="/" className="font-bold text-xl tracking-tight text-gray-900 dark:text-white">
               CHAEDIR
