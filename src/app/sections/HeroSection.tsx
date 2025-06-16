@@ -35,7 +35,7 @@ export default function HeroSection() {
       <HeroBackground mousePosition={mousePosition} />
 
       {/* Main content container */}
-      <div className="container mx-auto px-6 md:px-10 relative z-10 max-w-7xl">
+      <div className="container mx-auto px-6 md:px-10 relative z-10 max-w-7xl pt-20 md:pt-0">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
           {/* Text content */}
           <HeroContent />
