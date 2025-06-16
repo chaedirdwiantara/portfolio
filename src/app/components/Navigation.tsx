@@ -46,6 +46,11 @@ export default function Navigation() {
             </Link>
           </motion.div>
 
+          {/* Mobile Theme Toggle - Left Side */}
+          <div className="md:hidden">
+            <ThemeToggle />
+          </div>
+
           {/* Desktop Navigation */}
           <div className="hidden md:flex md:items-center">
             <div className="flex items-center space-x-6">
@@ -62,12 +67,11 @@ export default function Navigation() {
             </div>
           </div>
 
-          {/* Mobile menu button */}
-          <div className="flex items-center md:hidden">
-            <ThemeToggle />
+          {/* Mobile Hamburger Menu - Right Side */}
+          <div className="md:hidden">
             <button
               onClick={() => setIsOpen(!isOpen)}
-              className="inline-flex items-center justify-center p-2 ml-3 rounded-md text-gray-600 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white focus:outline-none"
+              className="inline-flex items-center justify-center p-2 rounded-md text-gray-600 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white focus:outline-none"
               aria-expanded="false"
             >
               <span className="sr-only">Open main menu</span>
